@@ -1,0 +1,264 @@
+{
+  "timestamp": "2026-10-12T18:01:02.574685+00:00",
+  "python": "3.14.4",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "model": "qwen3.5:9b-q4_K_M",
+  "swipl": "/opt/homebrew/bin/swipl",
+  "cases": [
+    {
+      "name": "fact_paraphrase",
+      "operation": "teach",
+      "input": "Project P is managed by Alice.",
+      "translation_status": "runtime_unavailable",
+      "gold_inference_status": "passed",
+      "gold_result": {
+        "rows": [
+          {
+            "bindings": {},
+            "support": [
+              "a_6147bf588db74b378991e1cbf9b00327"
+            ]
+          }
+        ],
+        "answer": "The proposition is supported by the active knowledge.",
+        "truncated": false
+      },
+      "inference_attempt_seconds": 0.017047208035364747
+    },
+    {
+      "name": "dataset_paraphrase",
+      "operation": "teach",
+      "input": "Authorization for dataset D must be renewed.",
+      "translation_status": "runtime_unavailable",
+      "gold_inference_status": "passed",
+      "gold_result": {
+        "rows": [
+          {
+            "bindings": {},
+            "support": [
+              "a_f5261966a6aa47cc976095b12b093ef7"
+            ]
+          }
+        ],
+        "answer": "The proposition is supported by the active knowledge.",
+        "truncated": false
+      },
+      "inference_attempt_seconds": 0.01697195798624307
+    },
+    {
+      "name": "rule_acquisition",
+      "operation": "teach",
+      "input": "Anyone who manages a project using a dataset that requires renewed authorization needs to be notified about that dataset.",
+      "translation_status": "runtime_unavailable",
+      "gold_inference_status": "passed",
+      "gold_result": {
+        "rows": [
+          {
+            "bindings": {
+              "Data": "dataset:d",
+              "Who": "person:alice"
+            },
+            "support": [
+              "a_34eb95708187477cb50b50215185c05f",
+              "a_40424c8126f34db7b70c00e1c92e3ac4",
+              "a_4a101f528d5b415aa3e8c03a1a6c924c",
+              "a_5f3cae4278c04d9aa7329c054e6be13d"
+            ]
+          }
+        ],
+        "answer": "Data = dataset:d, Who = person:alice",
+        "truncated": false
+      },
+      "inference_attempt_seconds": 0.017014041950460523
+    },
+    {
+      "name": "rule_paraphrase",
+      "operation": "teach",
+      "input": "If a person manages a project, that project uses a dataset, and that dataset requires renewed authorization, notify that person about that dataset.",
+      "translation_status": "runtime_unavailable",
+      "gold_inference_status": "passed",
+      "gold_result": {
+        "rows": [
+          {
+            "bindings": {
+              "Data": "dataset:d",
+              "Who": "person:alice"
+            },
+            "support": [
+              "a_22b264b09187467c9f9993873d3900f2",
+              "a_35fffb3ec0b34a8594ed16b5a7474995",
+              "a_e84934428fa34aa595ea6212c40d8815",
+              "a_edda4125c5c247c1a4e0096fff810445"
+            ]
+          }
+        ],
+        "answer": "Data = dataset:d, Who = person:alice",
+        "truncated": false
+      },
+      "inference_attempt_seconds": 0.01762741699349135
+    },
+    {
+      "name": "query_paraphrase",
+      "operation": "ask",
+      "input": "Who needs to be notified, and about what?",
+      "translation_status": "runtime_unavailable",
+      "gold_inference_status": "passed",
+      "gold_result": {
+        "rows": [
+          {
+            "bindings": {
+              "Data": "dataset:d",
+              "Who": "person:alice"
+            },
+            "support": [
+              "a_3a633b630e52423ab31c1b9ad4d57fd0",
+              "a_721615fbe1e04648aa620f876eaff9a9",
+              "a_8c6ae9d493d24549895f2d0ffce8d2a9",
+              "a_ae16fd85c63344b5acf1db6c410c65b4"
+            ]
+          }
+        ],
+        "answer": "Data = dataset:d, Who = person:alice",
+        "truncated": false
+      },
+      "inference_attempt_seconds": 0.01747266697930172
+    },
+    {
+      "name": "query_paraphrase_2",
+      "operation": "ask",
+      "input": "Which people need notification about which datasets?",
+      "translation_status": "runtime_unavailable",
+      "gold_inference_status": "passed",
+      "gold_result": {
+        "rows": [
+          {
+            "bindings": {
+              "Data": "dataset:d",
+              "Who": "person:alice"
+            },
+            "support": [
+              "a_8ccc9101cac34643858a8a02e6877d36",
+              "a_a9e9fa3f9bb14493b57a54334c225310",
+              "a_ebc47bfdaab64ec1b2bd5ecb601bc262",
+              "a_f1db2f7a0f9945f98c13899a90edc49f"
+            ]
+          }
+        ],
+        "answer": "Data = dataset:d, Who = person:alice",
+        "truncated": false
+      },
+      "inference_attempt_seconds": 0.017216957989148796
+    },
+    {
+      "name": "multistep",
+      "operation": "ask",
+      "input": "Who needs to be notified, and about what?",
+      "translation_status": "runtime_unavailable",
+      "gold_inference_status": "passed",
+      "gold_result": {
+        "rows": [
+          {
+            "bindings": {
+              "Data": "dataset:d",
+              "Who": "person:alice"
+            },
+            "support": [
+              "a_1a47ef34da1549ca815adf8cb6c192db",
+              "a_2c241dd82033495292a4c9562b283626",
+              "a_b7fa4e25d44045bb9b4386f43e543faf",
+              "a_fa94c52a02134d7ab718d9088127c486"
+            ]
+          }
+        ],
+        "answer": "Data = dataset:d, Who = person:alice",
+        "truncated": false
+      },
+      "inference_attempt_seconds": 0.017110000015236437
+    },
+    {
+      "name": "unknown",
+      "operation": "ask",
+      "input": "Does Carol manage project P?",
+      "translation_status": "runtime_unavailable",
+      "gold_inference_status": "passed",
+      "gold_result": {
+        "rows": [],
+        "answer": "No answer could be established from the active knowledge. This does not establish falsity.",
+        "truncated": false
+      },
+      "inference_attempt_seconds": 0.016986917005851865
+    },
+    {
+      "name": "correction",
+      "operation": "correct",
+      "input": "Bob now manages project P instead of Alice.",
+      "translation_status": "runtime_unavailable",
+      "gold_inference_status": "passed",
+      "gold_result": {
+        "rows": [
+          {
+            "bindings": {
+              "Data": "dataset:d",
+              "Who": "person:bob"
+            },
+            "support": [
+              "a_221cda3d8f354ffe84381fd1dce2637b",
+              "a_87350a38d917485cb5ef5024790efa2e",
+              "a_a5f93409f9dd4c66bfcdd2e165582f0a",
+              "a_ecd68a2bbbe8406f9faa9885c616b6ae"
+            ]
+          }
+        ],
+        "answer": "Data = dataset:d, Who = person:bob",
+        "truncated": false
+      },
+      "inference_attempt_seconds": 0.0166592089808546
+    },
+    {
+      "name": "retraction",
+      "operation": "retract",
+      "input": "Retract the requirement that dataset D needs renewed authorization.",
+      "translation_status": "runtime_unavailable",
+      "gold_inference_status": "passed",
+      "gold_result": {
+        "rows": [],
+        "answer": "No answer could be established from the active knowledge. This does not establish falsity.",
+        "truncated": false
+      },
+      "inference_attempt_seconds": 0.017043833970092237
+    },
+    {
+      "name": "ambiguous",
+      "operation": "teach",
+      "input": "She manages it.",
+      "translation_status": "runtime_unavailable"
+    },
+    {
+      "name": "unsupported",
+      "operation": "teach",
+      "input": "Alice does not manage project P.",
+      "translation_status": "runtime_unavailable"
+    }
+  ],
+  "method": "Each case starts with isolated gold fixtures. Translation is scored modulo variable renaming and conjunction order. Gold inference is checked independently. Predicted inference is checked only after a semantically correct translation. No fixture is described as model-acquired.",
+  "swipl_version": "SWI-Prolog version 10.0.2 for arm64-darwin",
+  "runtime_error": "Local Ollama unavailable at http://127.0.0.1:11434: <urlopen error [Errno 1] Operation not permitted>",
+  "preflight_seconds": 0.0013543330132961273,
+  "translation_summary": {
+    "runtime_unavailable": 12
+  },
+  "inference_summary": {
+    "passed": 10,
+    "not_applicable": 2
+  },
+  "latency_seconds": {
+    "translation": {
+      "count": 0,
+      "median": null
+    },
+    "gold_inference": {
+      "count": 10,
+      "median": 0.017045521002728492
+    }
+  }
+}
