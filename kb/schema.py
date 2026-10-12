@@ -1,5 +1,6 @@
 """Closed JSON schema plus semantic validation; no executable model text."""
 import re
+from copy import deepcopy
 
 VOCAB = {
     "manages": ["person", "project"],
@@ -38,6 +39,34 @@ SCHEMA = obj({
     "query": array(ATOM, 0, 6),
     "targets": array({"type": "string", "pattern": r"^a_[a-f0-9]{32}$"}, 0, 1),
 })
+
+
+def schema_for(operation, allowed_targets=()):
+    """Constrain decoding to this operation, while retaining a no-action branch."""
+    if operation not in {"teach", "ask", "correct", "retract"}:
+        raise Invalid("Unknown operation")
+    declined = deepcopy(SCHEMA)
+    props = declined["properties"]
+    props["status"] = {"enum": ["clarify", "unsupported"]}
+    props["explanation"]["pattern"] = r"\s*\S[\s\S]*"
+    for key in ("assertions", "query", "targets"):
+        props[key]["maxItems"] = 0
+    # With no known target, an update must ask for clarification, not invent an ID.
+    if operation in {"correct", "retract"} and not allowed_targets:
+        return declined
+    accepted = deepcopy(SCHEMA)
+    props = accepted["properties"]
+    props["status"] = {"const": "ok"}
+    required = {"teach": {"assertions"}, "ask": {"query"},
+                "correct": {"assertions", "targets"}, "retract": {"targets"}}[operation]
+    for key in ("assertions", "query", "targets"):
+        if key in required:
+            props[key]["minItems"] = 1
+        else:
+            props[key]["maxItems"] = 0
+    if "targets" in required:
+        props["targets"]["items"] = {"type": "string", "enum": list(allowed_targets)}
+    return {"oneOf": [accepted, declined]}
 
 
 def check_schema(value, schema, path="$"):
@@ -120,7 +149,14 @@ def validate(proposal, operation, allowed_targets=()):
     else:
         raise Invalid("Unknown operation")
     if not valid:
-        raise Invalid(f"Invalid fields for {operation}")
+        requirements = {
+            "teach": "nonempty assertions; empty query and targets",
+            "ask": "nonempty query; empty assertions and targets",
+            "correct": "nonempty replacement assertions, exactly one target ID, and empty query",
+            "retract": "exactly one target ID; empty assertions and query",
+        }
+        raise Invalid(f"Invalid fields for {operation}: expected {requirements[operation]}; "
+                      f"got assertions={len(assertions)}, query={len(query)}, targets={len(targets)}")
     if not set(targets) <= set(allowed_targets):
         raise Invalid("Target must be an active assertion supplied as a candidate")
     for assertion in assertions:

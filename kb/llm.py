@@ -4,12 +4,23 @@ import time
 import urllib.error
 import urllib.request
 from urllib.parse import urlparse
-from .schema import SCHEMA, VOCAB, DESCRIPTIONS, Invalid, atom, assertion, proposal, validate
+from .schema import VOCAB, DESCRIPTIONS, Invalid, atom, assertion, proposal, validate, schema_for
 from .prolog import RuntimeUnavailable
 
 DEFAULT_MODEL = "qwen3.5:9b-q4_K_M"
 
+
+class TranslationInvalid(Invalid):
+    def __init__(self, reason, rejected_proposal):
+        super().__init__(reason)
+        self.rejected_proposal = rejected_proposal
+
 EXAMPLES = [
+    {"operation": "correct", "input": "Nora now manages project Atlas instead of Eve.",
+     "candidates": [{"id": "a_" + "0" * 32,
+                     "assertion": assertion(atom("manages", "person:eve", "project:atlas"))}],
+     "output": proposal([assertion(atom("manages", "person:nora", "project:atlas"))],
+                        targets=["a_" + "0" * 32])},
     {"operation": "teach", "input": "Eve manages project Atlas.",
      "output": proposal([assertion(atom("manages", "person:eve", "project:atlas"))])},
     {"operation": "teach", "input": "Every manager of a project using a dataset needs notification about that dataset.",
@@ -80,10 +91,12 @@ class Ollama:
         system = SYSTEM + "\nVocabulary: " + json.dumps({p: {"roles": ts, "meaning": DESCRIPTIONS[p]} for p, ts in VOCAB.items()}) + "\nExamples: " + json.dumps(EXAMPLES)
         if len(json.dumps(user)) > 6000:
             raise Invalid("Candidate context too large. Use an explicit assertion ID.")
+        allowed_targets = [r["id"] for r in candidates]
+        decoding_targets = [explicit_id] if explicit_id in allowed_targets else allowed_targets
         started = time.perf_counter()
         response = self.request("/api/chat", {"model": self.model,
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": json.dumps(user)}],
-            "format": SCHEMA, "stream": False, "think": False, "keep_alive": "5m",
+            "format": schema_for(operation, decoding_targets), "stream": False, "think": False, "keep_alive": "5m",
             "options": {"temperature": 0, "seed": 0, "num_ctx": 8192, "num_predict": 2048}})
         elapsed = time.perf_counter() - started
         if response.get("done_reason") == "length":
@@ -92,9 +105,12 @@ class Ollama:
             result = json.loads(response["message"]["content"])
         except (KeyError, TypeError, ValueError) as exc:
             raise Invalid("Model did not return a JSON proposal") from exc
-        validate(result, operation, [r["id"] for r in candidates])
-        if explicit_id and result["status"] == "ok" and operation in {"correct", "retract"} and result["targets"] != [explicit_id]:
-            raise Invalid("Translation did not select the explicitly requested target")
+        try:
+            validate(result, operation, allowed_targets)
+            if explicit_id and result["status"] == "ok" and operation in {"correct", "retract"} and result["targets"] != [explicit_id]:
+                raise Invalid("Translation did not select the explicitly requested target")
+        except Invalid as exc:
+            raise TranslationInvalid(str(exc), result) from exc
         return result, {"translation_seconds": elapsed, "model": self.model,
                         "prompt_tokens": response.get("prompt_eval_count"),
                         "output_tokens": response.get("eval_count")}

@@ -2,7 +2,7 @@
 
 A frozen local LLM translates natural language into a small validated logical language. SQLite persists accepted assertions and their sources. SWI-Prolog derives answers and supporting assertion IDs. The model neither executes code nor supplies the final answer or proof.
 
-**Implementation status:** All 18 deterministic tests pass on Python 3.14.4 and SWI-Prolog 10.0.2 for arm64-darwin, including real inference, corrections, retractions, and fresh-process restart checks. All 10 gold-inference evaluation cases pass. This session has Ollama client 0.35.1, but sandbox restrictions prevent connecting to localhost (`Operation not permitted`). Local-model translations, memory usage, and the full model-driven demo remain **unverified**. Unavailable runtimes are reported explicitly, not counted as successful tests.
+**Implementation status:** All 20 deterministic tests pass on Python 3.14.4 and SWI-Prolog 10.0.2 for arm64-darwin, including real inference, corrections, retractions, and fresh-process restart checks. All 10 gold-inference evaluation cases pass. This session has Ollama client 0.35.1, but sandbox restrictions prevent connecting to localhost (`Operation not permitted`). Local-model translations, memory usage, and the full model-driven demo remain **unverified**. Unavailable runtimes are reported explicitly, not counted as successful tests.
 
 ## Apple Silicon setup
 
@@ -103,9 +103,15 @@ python3 -m kb retract --id a_REPLACE_WITH_REAL_ID 'Retract this assertion.'
 
 Use `--preview` with teach/ask/correct/retract to translate without applying a mutation or executing a query. Re-running without preview performs a new translation; it is not an approval of a saved proposal. Default mutations immediately accept structurally valid model proposals and print them for inspection. **Schema validity is not semantic verification.** Mistakes remain possible; use inspect/correct/retract to revise them. The prompt asks for clarification on ambiguous references and unsupported status for out-of-vocabulary meaning. These are model behaviors measured by the evaluation, not guaranteed by JSON validation.
 
+## Diagnosing rejected translations
+
+`Invalid fields for correct` means the model returned JSON that passed the base shape check but did not contain the required combination of replacement assertions, one target, and no query. The old error did not retain the proposal, so it cannot identify which field was wrong in a past run. The database is unchanged by a rejected translation.
+
+The decoder now uses operation-specific schemas and a correction example. If validation still fails, stderr includes the rejected proposal and field counts. This constrains structure, not semantic correctness; live-model behavior after this change still needs verification. Retry the correction or run `python3 examples/demo.py --db retry-demo.sqlite3` with a new database path to verify the entire sequence. A previously retracted renewal requirement remains retracted, so correcting the manager alone will not restore notification results.
+
 ## Logical subset and schema
 
-Run `python3 -m kb schema` to print the exact JSON Schema. All responses require `status`, `explanation`, `assertions`, `query`, and `targets`, with no extra fields. Status is `ok`, `clarify`, or `unsupported`; non-ok proposals must contain an explanation and no actions.
+Run `python3 -m kb schema` to print the base JSON Schema. Ollama receives an operation-specific version: a successful correction requires nonempty replacement assertions, exactly one target from the supplied candidate IDs, and an empty query. A separate branch permits clarification or unsupported responses with no actions. All responses require `status`, `explanation`, `assertions`, `query`, and `targets`, with no extra fields. Status is `ok`, `clarify`, or `unsupported`; non-ok proposals must contain an explanation and no actions.
 
 | Predicate | Ordered argument types | Meaning |
 | --- | --- | --- |

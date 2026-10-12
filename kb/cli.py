@@ -55,7 +55,10 @@ def main(argv=None):
         print(json.dumps(result, indent=2))
         return 0
     except (Invalid, InferenceError, RuntimeUnavailable, OSError, sqlite3.Error) as exc:
-        print(json.dumps({"error": str(exc), "type": type(exc).__name__}), file=sys.stderr)
+        error = {"error": str(exc), "type": type(exc).__name__}
+        if hasattr(exc, "rejected_proposal"):
+            error["rejected_proposal"] = exc.rejected_proposal
+        print(json.dumps(error), file=sys.stderr)
         return 2
     finally:
         if store:

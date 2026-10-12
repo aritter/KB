@@ -6,10 +6,10 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
-from kb.schema import Invalid, atom as a, assertion as rule, proposal as p, validate
+from kb.schema import Invalid, atom as a, assertion as rule, proposal as p, validate, schema_for, check_schema
 from kb.store import Store
 from kb.prolog import Prolog, program, InferenceError
-from kb.llm import Ollama
+from kb.llm import Ollama, TranslationInvalid
 from kb.service import execute
 
 ALICE = rule(a("manages", "person:alice", "project:p"))
@@ -55,6 +55,26 @@ class StoreTests(unittest.TestCase):
         self.assertEqual(record['assertion'], NOTIFY)
         self.assertEqual(record['source'], "original utterance")
         self.assertEqual(record['id'], ids[0])
+
+    def test_correction_adapter_rejects_invalid_output_without_mutating(self):
+        ident, = self.teach(ALICE)
+        llm = Ollama()
+        invalid = p([BOB])  # Syntactically valid JSON, but missing correction target.
+        with patch.object(llm, 'request', return_value={'message': {'content': json.dumps(invalid)}}):
+            with self.assertRaises(TranslationInvalid) as caught:
+                execute(self.store, llm, None, 'correct', 'Bob now manages project P instead of Alice.')
+        self.assertEqual(caught.exception.rejected_proposal, invalid)
+        self.assertIn('targets=0', str(caught.exception))
+        self.assertEqual(self.store.snapshot()[0], 1)
+        self.assertEqual(self.store.snapshot()[1][0]['id'], ident)
+        valid = p([BOB], targets=[ident])
+        with patch.object(llm, 'request', return_value={'message': {'content': json.dumps(valid)}}) as request:
+            execute(self.store, llm, None, 'correct', 'Bob now manages project P instead of Alice.')
+        schema = request.call_args.args[1]['format']
+        check_schema(valid, schema)
+        with self.assertRaises(Invalid):
+            check_schema(invalid, schema)
+        self.assertEqual(self.store.snapshot()[1][0]['assertion'], BOB)
 
     def test_no_implicit_exclusivity(self):
         self.teach(ALICE, BOB)
@@ -106,6 +126,25 @@ class StoreTests(unittest.TestCase):
 
 
 class SchemaTests(unittest.TestCase):
+    def test_operation_schemas_restrict_actions_and_targets(self):
+        ident = 'a_' + '1' * 32
+        cases = {'teach': p([ALICE]), 'ask': p(query=QUERY),
+                 'correct': p([BOB], targets=[ident]), 'retract': p(targets=[ident])}
+        for operation, valid in cases.items():
+            schema = schema_for(operation, [ident])
+            check_schema(valid, schema)
+            check_schema(p(status='clarify', explanation='Which assertion?'), schema)
+            check_schema(p(status='unsupported', explanation='No negation.'), schema)
+            for other_operation, other in cases.items():
+                if other_operation != operation:
+                    with self.subTest(operation=operation, other=other_operation), self.assertRaises(Invalid):
+                        check_schema(other, schema)
+        with self.assertRaises(Invalid):
+            check_schema(p([BOB], targets=['a_'+'2'*32]), schema_for('correct', [ident]))
+        with self.assertRaises(Invalid):
+            check_schema(cases['correct'], schema_for('correct'))
+        check_schema(p(status='clarify', explanation='Name the old assertion.'), schema_for('correct'))
+
     def test_accept_rule_and_query(self):
         validate(p([NOTIFY]), 'teach')
         validate(p(query=QUERY), 'ask')
