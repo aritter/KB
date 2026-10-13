@@ -1,0 +1,488 @@
+[
+  {
+    "source": "Alice built Python pipelines for cleaning, joining, and validating research datasets.",
+    "assertion": {
+      "head": {
+        "predicate": "person_profile",
+        "args": [
+          {
+            "const": "person:alice"
+          },
+          {
+            "const": "profile:alice"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Bob implemented Python data-processing pipelines and automated dataset quality checks.",
+    "assertion": {
+      "head": {
+        "predicate": "person_profile",
+        "args": [
+          {
+            "const": "person:bob"
+          },
+          {
+            "const": "profile:bob"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Carol is interested in research and enjoys helping teams.",
+    "assertion": {
+      "head": {
+        "predicate": "person_profile",
+        "args": [
+          {
+            "const": "person:carol"
+          },
+          {
+            "const": "profile:carol"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: available(person:alice, period:october)",
+    "assertion": {
+      "head": {
+        "predicate": "available",
+        "args": [
+          {
+            "const": "person:alice"
+          },
+          {
+            "const": "period:october"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: unavailable(person:bob, period:october)",
+    "assertion": {
+      "head": {
+        "predicate": "unavailable",
+        "args": [
+          {
+            "const": "person:bob"
+          },
+          {
+            "const": "period:october"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: available(person:carol, period:october)",
+    "assertion": {
+      "head": {
+        "predicate": "available",
+        "args": [
+          {
+            "const": "person:carol"
+          },
+          {
+            "const": "period:october"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: task(task:preprocess)",
+    "assertion": {
+      "head": {
+        "predicate": "task",
+        "args": [
+          {
+            "const": "task:preprocess"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: task_status(task:preprocess, status:pending)",
+    "assertion": {
+      "head": {
+        "predicate": "task_status",
+        "args": [
+          {
+            "const": "task:preprocess"
+          },
+          {
+            "const": "status:pending"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: task_spec_complete(task:preprocess)",
+    "assertion": {
+      "head": {
+        "predicate": "task_spec_complete",
+        "args": [
+          {
+            "const": "task:preprocess"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: task(task:baseline)",
+    "assertion": {
+      "head": {
+        "predicate": "task",
+        "args": [
+          {
+            "const": "task:baseline"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: task_status(task:baseline, status:pending)",
+    "assertion": {
+      "head": {
+        "predicate": "task_status",
+        "args": [
+          {
+            "const": "task:baseline"
+          },
+          {
+            "const": "status:pending"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: task_spec_complete(task:baseline)",
+    "assertion": {
+      "head": {
+        "predicate": "task_spec_complete",
+        "args": [
+          {
+            "const": "task:baseline"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: task(task:validate)",
+    "assertion": {
+      "head": {
+        "predicate": "task",
+        "args": [
+          {
+            "const": "task:validate"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: task_status(task:validate, status:pending)",
+    "assertion": {
+      "head": {
+        "predicate": "task_status",
+        "args": [
+          {
+            "const": "task:validate"
+          },
+          {
+            "const": "status:pending"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: task_spec_complete(task:validate)",
+    "assertion": {
+      "head": {
+        "predicate": "task_spec_complete",
+        "args": [
+          {
+            "const": "task:validate"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: requires_skill(task:preprocess, skill:python)",
+    "assertion": {
+      "head": {
+        "predicate": "requires_skill",
+        "args": [
+          {
+            "const": "task:preprocess"
+          },
+          {
+            "const": "skill:python"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: requires_resource(task:preprocess, dataset:d)",
+    "assertion": {
+      "head": {
+        "predicate": "requires_resource",
+        "args": [
+          {
+            "const": "task:preprocess"
+          },
+          {
+            "const": "dataset:d"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: requires_skill(task:baseline, skill:python)",
+    "assertion": {
+      "head": {
+        "predicate": "requires_skill",
+        "args": [
+          {
+            "const": "task:baseline"
+          },
+          {
+            "const": "skill:python"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: depends_on(task:baseline, task:preprocess)",
+    "assertion": {
+      "head": {
+        "predicate": "depends_on",
+        "args": [
+          {
+            "const": "task:baseline"
+          },
+          {
+            "const": "task:preprocess"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: requires_resource(task:baseline, resource:compute)",
+    "assertion": {
+      "head": {
+        "predicate": "requires_resource",
+        "args": [
+          {
+            "const": "task:baseline"
+          },
+          {
+            "const": "resource:compute"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: requires_skill(task:validate, skill:statistical_validation)",
+    "assertion": {
+      "head": {
+        "predicate": "requires_skill",
+        "args": [
+          {
+            "const": "task:validate"
+          },
+          {
+            "const": "skill:statistical_validation"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: depends_on(task:validate, task:baseline)",
+    "assertion": {
+      "head": {
+        "predicate": "depends_on",
+        "args": [
+          {
+            "const": "task:validate"
+          },
+          {
+            "const": "task:baseline"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: milestone_requires(milestone:evaluation_complete, task:validate)",
+    "assertion": {
+      "head": {
+        "predicate": "milestone_requires",
+        "args": [
+          {
+            "const": "milestone:evaluation_complete"
+          },
+          {
+            "const": "task:validate"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: resource_status(dataset:d, status:unavailable)",
+    "assertion": {
+      "head": {
+        "predicate": "resource_status",
+        "args": [
+          {
+            "const": "dataset:d"
+          },
+          {
+            "const": "status:unavailable"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: resource_status(resource:compute, status:available)",
+    "assertion": {
+      "head": {
+        "predicate": "resource_status",
+        "args": [
+          {
+            "const": "resource:compute"
+          },
+          {
+            "const": "status:available"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: assigned_to(task:preprocess, person:bob)",
+    "assertion": {
+      "head": {
+        "predicate": "assigned_to",
+        "args": [
+          {
+            "const": "task:preprocess"
+          },
+          {
+            "const": "person:bob"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: task(task:document_protocol)",
+    "assertion": {
+      "head": {
+        "predicate": "task",
+        "args": [
+          {
+            "const": "task:document_protocol"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: task_status(task:document_protocol, status:pending)",
+    "assertion": {
+      "head": {
+        "predicate": "task_status",
+        "args": [
+          {
+            "const": "task:document_protocol"
+          },
+          {
+            "const": "status:pending"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Reviewed demo declaration: requires_skill(task:document_protocol, skill:python)",
+    "assertion": {
+      "head": {
+        "predicate": "requires_skill",
+        "args": [
+          {
+            "const": "task:document_protocol"
+          },
+          {
+            "const": "skill:python"
+          }
+        ]
+      },
+      "body": []
+    }
+  },
+  {
+    "source": "Document protocol has a complete specification: Python is its only required skill, and it has no prerequisite tasks or resources.",
+    "assertion": {
+      "head": {
+        "predicate": "task_spec_complete",
+        "args": [
+          {
+            "const": "task:document_protocol"
+          }
+        ]
+      },
+      "body": []
+    }
+  }
+]

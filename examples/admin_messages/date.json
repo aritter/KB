@@ -1,0 +1,13 @@
+{
+  "status": "clarify",
+  "explanation": "Does 11/12 mean November 12 or December 11, and which year?",
+  "request_id": "request:alex_appointment",
+  "desired_outcome": "",
+  "responsible": "",
+  "expected": [],
+  "observed": [],
+  "dates": [],
+  "documents": [],
+  "absent_documents": [],
+  "dependencies": []
+}

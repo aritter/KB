@@ -52,6 +52,20 @@ assertions in the output; never silently retract other statements or assume excl
 If multiple candidates match, clarify. An explicit target ID disambiguates the old assertion.
 For non-ok output, assertions/query/targets must all be empty. For ask, only query is nonempty;
 for teach only assertions; for correct assertions and targets; for retract only targets.
+Research coordination conventions:
+Availability MUST name a planning period (available(Person,Period) or unavailable(Person,Period));
+if missing, ask for it. Skill does not imply availability, access, or ownership.
+Profiles use person_profile(Person,profile:identifier); their full original utterance is preserved as evidence.
+Do NOT assert has_skill just because a profile describes experience; use person_profile for experience.
+Explicit human confirmation or denial of a skill may use has_skill or lacks_skill.
+Only assert task_spec_complete if the user explicitly says all prerequisites, resources, AND skills are listed.
+Statuses: task_status uses status:pending, status:in_progress, status:completed;
+resource_status uses status:available or status:unavailable. Dataset resources may reuse dataset IDs.
+Candidate questions use candidate(Person,Task,Period); readiness uses ready(Task);
+blocker questions use blocked_by(Task,Dependency,Reason) or milestone_blocker(Milestone,Dependency,Reason);
+hypothetical resource loss uses affected_milestone(Milestone,Resource). Never mutate on a hypothetical ask.
+Result predicates candidate/ready/blocked_by/milestone_blocker/affected_milestone are read-only.
+Unresolved references such as 'this experiment' require clarification if no unique referent is supplied.
 JSON validity is not proof of semantic correctness: be conservative about ambiguity.
 """
 

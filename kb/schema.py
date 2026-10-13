@@ -1,6 +1,8 @@
 """Closed JSON schema plus semantic validation; no executable model text."""
 import re
 from copy import deepcopy
+from .domains.research import PREDICATES, DERIVED, EXPLICIT_ONLY, STATUS_VALUES
+from .domains.admin import PREDICATES as ADMIN_PREDICATES
 
 VOCAB = {
     "manages": ["person", "project"],
@@ -15,6 +17,10 @@ DESCRIPTIONS = {
     "needs_notification": "person needs to be notified about dataset",
 }
 
+VOCAB.update({p: spec[0] for p, spec in {**PREDICATES, **ADMIN_PREDICATES}.items()})
+DESCRIPTIONS.update({p: spec[1] for p, spec in {**PREDICATES, **ADMIN_PREDICATES}.items()})
+ENTITY_TYPES = sorted({t for roles in VOCAB.values() for role in roles for t in role.split("|")})
+
 class Invalid(ValueError):
     pass
 
@@ -27,7 +33,7 @@ def array(items, minimum=0, maximum=8):
     return {"type": "array", "items": items, "minItems": minimum, "maxItems": maximum}
 
 
-TERM = {"oneOf": [obj({"const": {"type": "string", "pattern": r"^(person|project|dataset):[a-z0-9][a-z0-9_-]{0,63}$"}}),
+TERM = {"oneOf": [obj({"const": {"type": "string", "pattern": r"^(" + "|".join(ENTITY_TYPES) + r"):[a-z0-9][a-z0-9_-]{0,63}$"}}),
                   obj({"var": {"type": "string", "pattern": r"^[A-Z][A-Za-z0-9_]{0,31}$"}})]}
 ATOM = {"oneOf": [obj({"predicate": {"const": p}, "args": array(TERM, len(types), len(types))})
                    for p, types in VOCAB.items()]}
@@ -113,11 +119,13 @@ def typed(atoms):
     for atom in atoms:
         for term, expected in zip(atom["args"], VOCAB[atom["predicate"]]):
             if "const" in term:
-                if term["const"].split(":")[0] != expected:
+                if term["const"].split(":")[0] not in expected.split("|"):
                     raise Invalid(f"{atom['predicate']}: expected {expected}")
             else:
                 var = term["var"]
-                if seen.setdefault(var, expected) != expected:
+                allowed = set(expected.split("|"))
+                seen[var] = seen.get(var, allowed) & allowed
+                if not seen[var]:
                     raise Invalid(f"Variable {var} has incompatible entity types")
 
 
@@ -125,6 +133,17 @@ def validate_assertion(assertion):
     check_schema(assertion, ASSERTION)
     head, body = assertion["head"], assertion["body"]
     typed([head] + body)
+    predicate = head["predicate"]
+    if predicate in ADMIN_PREDICATES:
+        raise Invalid("Administrative message assessments use the shared gateway; use admin override for human judgments")
+    if predicate in DERIVED:
+        raise Invalid("Coordination result predicates are read-only; inspect the domain rules")
+    if body and predicate in EXPLICIT_ONLY:
+        raise Invalid(f"{predicate} requires an explicit ground update, not a rule")
+    if predicate in STATUS_VALUES and not body:
+        status = head["args"][-1].get("const", "").split(":")[-1]
+        if status not in STATUS_VALUES[predicate]:
+            raise Invalid(f"Unsupported {predicate} status: {status}")
     if not variables([head]) <= variables(body):
         raise Invalid("Head variables must occur in the positive body; facts must be ground")
     if len(variables([head] + body)) > 12:

@@ -1,0 +1,14 @@
+{
+  "kind": "real_ollama_attempt",
+  "returncode": 0,
+  "stdout": {
+    "source_id": "m_c03078e0e99f4de1912482316e131bb2",
+    "request_id": "request:alex_appointment",
+    "extraction": {
+      "status": "clarify",
+      "explanation": "Extraction unavailable or rejected: Local Ollama unavailable at http://127.0.0.1:11434: <urlopen error [Errno 1] Operation not permitted>"
+    },
+    "incorporated": false
+  },
+  "stderr": ""
+}

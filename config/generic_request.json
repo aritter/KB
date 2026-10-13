@@ -1,0 +1,10 @@
+{
+  "name": "generic_request", "version": "fictional-v1",
+  "description": "User-configured generic administrative request.",
+  "fields": {"outcome":"text"}, "required_fields":["outcome"],
+  "required_documents":["outcome_confirmation"],
+  "verification_requirement":"requirement:outcome_confirmation",
+  "acceptable_evidence_kinds":["confirmation"],
+  "steps":[{"name":"submission","requires":[]},{"name":"verification","requires":["submission","outcome_confirmation"]}],
+  "follow_up":{"stale_after_days":null,"lead_time_unit":"calendar_days","basis":"user_preference"}
+}

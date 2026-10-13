@@ -1,0 +1,13 @@
+{
+  "status": "clarify",
+  "explanation": "Which request does this refer to?",
+  "request_id": "",
+  "desired_outcome": "",
+  "responsible": "",
+  "expected": [],
+  "observed": [],
+  "dates": [],
+  "documents": [],
+  "absent_documents": [],
+  "dependencies": []
+}

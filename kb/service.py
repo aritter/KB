@@ -9,12 +9,17 @@ def execute(store, translator, engine, operation, text, target_id=None, preview=
     result, metrics = translator.translate(operation, text, candidates, target_id)
     response = {"proposal": result, "metrics": metrics, "candidate_count": len(candidates),
                 "semantic_verification": "Model extraction; inspect source and proposal for meaning errors."}
+    if result["status"] == "unsupported" and not preview and operation != "ask":
+        response["source_note"] = store.note(text, result["explanation"])
+        response["incorporated_into_executable_knowledge"] = False
     if result["status"] != "ok" or preview:
         return response
     if operation == "ask":
         revision, records = store.snapshot()
         started = time.perf_counter()
-        response.update(engine.ask(records, result["query"]))
+        answer = engine.ask(records, result["query"])
+        metrics.update(answer.pop("metrics", {}))
+        response.update(answer)
         metrics["inference_seconds"] = time.perf_counter() - started
         response["revision"] = revision
     else:

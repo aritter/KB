@@ -14,7 +14,7 @@ dependencies = []
 research-kb = "kb.cli:main"
 
 [tool.setuptools.package-data]
-kb = ["*.pl"]
+kb = ["*.pl", "domains/*.pl"]
 
 [tool.setuptools.packages.find]
 include = ["kb*"]

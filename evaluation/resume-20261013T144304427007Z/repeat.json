@@ -1,0 +1,1325 @@
+{
+  "as_of": "2026-10-26T00:00:00-04:00",
+  "timezone": "America/New_York",
+  "lead_time_unit": "calendar_days",
+  "most_recent_ingested_evidence_timestamp": "2026-10-13T14:39:07.720881+00:00",
+  "most_recent_evidence_timestamp": "2026-10-26T04:00:00+00:00",
+  "attention": [],
+  "requests": [
+    {
+      "request_id": "request:alex_appointment",
+      "affected_research_tasks": [],
+      "desired_outcome": "Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+      "responsible": "fictional Appointments Office",
+      "template_id": "tpl_7d38b83edbac2de2f73068b2731d43806dfce1fb33a2f0e5b21e92c983030dc3",
+      "dates": {
+        "submission": {
+          "value": "2026-10-12",
+          "sources": [
+            {
+              "id": "w_1b73bc1629524acf87b5f09426f7b949",
+              "basis": "documented",
+              "role": "submission",
+              "value": "2026-10-12"
+            }
+          ]
+        },
+        "deadline": {
+          "value": null,
+          "sources": []
+        },
+        "follow_up": {
+          "value": "2026-10-20",
+          "sources": [
+            {
+              "id": "w_5133515f91c54d21b0c4649fff2726ac",
+              "basis": "user_preference",
+              "role": "follow_up",
+              "value": "2026-10-20"
+            }
+          ]
+        },
+        "intervention": {
+          "value": "2026-10-25",
+          "sources": [
+            {
+              "id": "w_8ec8321bb5464065ac432685e0430dc9",
+              "basis": "user_preference",
+              "role": "intervention",
+              "value": "2026-10-25"
+            }
+          ]
+        },
+        "lead_days": {
+          "value": null,
+          "sources": []
+        }
+      },
+      "snoozed_until": null,
+      "latest_evidence_at": "2026-10-26T04:00:00+00:00",
+      "latest_evidence_age_days": 0.0,
+      "latest_evidence": {
+        "id": "m_94f6c3a08199480f8774fa7eb92b07f9",
+        "text": "Corrected appointment confirmation: Alex Example, 2026-11-01 through 2026-12-31, funding account FUND-A."
+      },
+      "progress": "claimed_complete",
+      "progress_assessments": {
+        "acknowledged": [
+          "m_b2d953bb4ccb4e559b3f04b055203f29"
+        ],
+        "promised": [
+          "m_b2d953bb4ccb4e559b3f04b055203f29"
+        ],
+        "completion_claim": [
+          "m_913f6a7c89fc4f1faa6843c5f902fdcd",
+          "m_94f6c3a08199480f8774fa7eb92b07f9"
+        ],
+        "additional_information_requested": []
+      },
+      "verification": "verified_documentary",
+      "documentary_proofs": [
+        {
+          "message": "m_94f6c3a08199480f8774fa7eb92b07f9",
+          "judgment": "j_da5a4c6370a9247907bfba655e137fd27d1e2dfae35e07ac16b9efdbf7292ff6",
+          "support": [
+            "w_b0dff2397dcb4723addd98a100db5c1e",
+            "w_611c46b34d5a4f78afc80339cd84fae8",
+            "w_adb8769d2d074a41a05d700b6cf31213",
+            "w_25ea4dfe688943ba8545ce1b77ccead6",
+            "w_ac3eb8bfe939445bbec771671f3cbfd2",
+            "w_a81567fd99c04f4badbc1d012592158e",
+            "w_90d15f79188846d59555f62da02fc011",
+            "w_be773d0ae3ce437eb661c3b536990695"
+          ]
+        }
+      ],
+      "user_confirmation_sources": [],
+      "missing_evidence": [],
+      "known_absent": [],
+      "discrepancies": [],
+      "judgments": [
+        {
+          "status": "insufficient_evidence",
+          "origin": "model_assessment",
+          "raw_id": "raw_1ee76f6a812a44eb8c1e9e4e024f6502",
+          "predicate": "message_acknowledges",
+          "definition_id": "d_bfa9cb0abee95dc014ff745aeffc680f8af6ade59021ae3478facca65e54c9b1",
+          "arguments": [
+            "message:m_2904e092ead34abcaaa95c81b72a3f37",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_2904e092ead34abcaaa95c81b72a3f37",
+              "source": "Please appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A. Submitted October 12, 2026 to the fictional Appointments Office. My follow-up date is October 20, 2026 and my intervention date is October 25, 2026.",
+              "received_at": "2026-10-12T04:00:00+00:00",
+              "hash": "67b51a090d8a2ce303899f746ef80190b8c43540f2763ad4d418a5fc780d8877"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "insufficient_evidence",
+              "confidence": 0.9156,
+              "probabilities": {
+                "contradicted": 0.0196,
+                "insufficient_evidence": 0.9437,
+                "supported": 0.0367
+              },
+              "type": "choice"
+            },
+            "latency_ms": 1449.5,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 202,
+              "output_tokens": 72
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_89c0826016fdbdac2369fcf0524584fd3be2fdd70a041372eec783b0716da695"
+        },
+        {
+          "status": "insufficient_evidence",
+          "origin": "model_assessment",
+          "raw_id": "raw_e4bf2d227f90453784cd880be992b327",
+          "predicate": "message_promises",
+          "definition_id": "d_6466775b73a31eaad0e42581fc10f5335e29a4981c5339ae5644b0caed7a966a",
+          "arguments": [
+            "message:m_2904e092ead34abcaaa95c81b72a3f37",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_2904e092ead34abcaaa95c81b72a3f37",
+              "source": "Please appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A. Submitted October 12, 2026 to the fictional Appointments Office. My follow-up date is October 20, 2026 and my intervention date is October 25, 2026.",
+              "received_at": "2026-10-12T04:00:00+00:00",
+              "hash": "67b51a090d8a2ce303899f746ef80190b8c43540f2763ad4d418a5fc780d8877"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "insufficient_evidence",
+              "confidence": 0.895,
+              "probabilities": {
+                "contradicted": 0.0142,
+                "insufficient_evidence": 0.93,
+                "supported": 0.0558
+              },
+              "type": "choice"
+            },
+            "latency_ms": 323.0,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 213,
+              "output_tokens": 69
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_180e3d504c438040c317caa43d477bf8ac02cd18e0ab24c45428e3e40bee4b9e"
+        },
+        {
+          "status": "insufficient_evidence",
+          "origin": "model_assessment",
+          "raw_id": "raw_fc13a3c7a6ea4ecd8e17446daf15e39f",
+          "predicate": "message_claims_completion",
+          "definition_id": "d_09574e74dbd05fcfad33d9f171eeb9ae702c6265389f27c41a35221edf00c1a0",
+          "arguments": [
+            "message:m_2904e092ead34abcaaa95c81b72a3f37",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_2904e092ead34abcaaa95c81b72a3f37",
+              "source": "Please appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A. Submitted October 12, 2026 to the fictional Appointments Office. My follow-up date is October 20, 2026 and my intervention date is October 25, 2026.",
+              "received_at": "2026-10-12T04:00:00+00:00",
+              "hash": "67b51a090d8a2ce303899f746ef80190b8c43540f2763ad4d418a5fc780d8877"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "insufficient_evidence",
+              "confidence": 0.3272,
+              "probabilities": {
+                "contradicted": 0.4093,
+                "insufficient_evidence": 0.5514,
+                "supported": 0.0393
+              },
+              "type": "choice"
+            },
+            "latency_ms": 476.3,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 250,
+              "output_tokens": 72
+            }
+          },
+          "acceptance": "policy_abstention",
+          "id": "j_81daaf43720419433a893ff61b9ba2dc3f1e5e4105cafbf712f45f55d92a47c8"
+        },
+        {
+          "status": "insufficient_evidence",
+          "origin": "model_assessment",
+          "raw_id": "raw_eb07247eda214c3c855791b0508c870b",
+          "predicate": "message_requests_info",
+          "definition_id": "d_6b7b607fbe22c87950f85e9a30d7d2a0a894413dda13663242b54169143ae9af",
+          "arguments": [
+            "message:m_2904e092ead34abcaaa95c81b72a3f37",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_2904e092ead34abcaaa95c81b72a3f37",
+              "source": "Please appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A. Submitted October 12, 2026 to the fictional Appointments Office. My follow-up date is October 20, 2026 and my intervention date is October 25, 2026.",
+              "received_at": "2026-10-12T04:00:00+00:00",
+              "hash": "67b51a090d8a2ce303899f746ef80190b8c43540f2763ad4d418a5fc780d8877"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "insufficient_evidence",
+              "confidence": 0.8711,
+              "probabilities": {
+                "contradicted": 0.0619,
+                "insufficient_evidence": 0.9141,
+                "supported": 0.024
+              },
+              "type": "choice"
+            },
+            "latency_ms": 309.3,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 208,
+              "output_tokens": 71
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_58794af420f9547c862e42d89139e946685cf5575f29fda2b62f9045b07e5d96"
+        },
+        {
+          "status": "supported",
+          "origin": "model_assessment",
+          "raw_id": "raw_05c1d7e92f974d1cb9eda56b415847ba",
+          "predicate": "message_acknowledges",
+          "definition_id": "d_bfa9cb0abee95dc014ff745aeffc680f8af6ade59021ae3478facca65e54c9b1",
+          "arguments": [
+            "message:m_b2d953bb4ccb4e559b3f04b055203f29",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_b2d953bb4ccb4e559b3f04b055203f29",
+              "source": "Received, we\u2019ll take care of it.",
+              "received_at": "2026-10-13T04:00:00+00:00",
+              "hash": "b1b9a84d1047a2e8fd442a2406956a34a117c9bb256338e315a621d8d309fd27"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "supported",
+              "confidence": 0.8575,
+              "probabilities": {
+                "contradicted": 0.0158,
+                "insufficient_evidence": 0.0792,
+                "supported": 0.905
+              },
+              "type": "choice"
+            },
+            "latency_ms": 494.2,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 136,
+              "output_tokens": 68
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_3d509b1bb834d2ec0be8f566b51c9aae37cb7c7490d98fca3f66f5b1f2b96dd3"
+        },
+        {
+          "status": "supported",
+          "origin": "model_assessment",
+          "raw_id": "raw_086536bb2709476ba818ccc8cfef72af",
+          "predicate": "message_promises",
+          "definition_id": "d_6466775b73a31eaad0e42581fc10f5335e29a4981c5339ae5644b0caed7a966a",
+          "arguments": [
+            "message:m_b2d953bb4ccb4e559b3f04b055203f29",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_b2d953bb4ccb4e559b3f04b055203f29",
+              "source": "Received, we\u2019ll take care of it.",
+              "received_at": "2026-10-13T04:00:00+00:00",
+              "hash": "b1b9a84d1047a2e8fd442a2406956a34a117c9bb256338e315a621d8d309fd27"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "supported",
+              "confidence": 0.7545,
+              "probabilities": {
+                "contradicted": 0.0089,
+                "insufficient_evidence": 0.1547,
+                "supported": 0.8363
+              },
+              "type": "choice"
+            },
+            "latency_ms": 312.7,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 147,
+              "output_tokens": 69
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_3b818e80b9823b6e347b78f607be8aa9d59e9cf7408231d7347450c1069f0ea5"
+        },
+        {
+          "status": "insufficient_evidence",
+          "origin": "model_assessment",
+          "raw_id": "raw_82b1ed6ee270487a849c81277c057258",
+          "predicate": "message_claims_completion",
+          "definition_id": "d_09574e74dbd05fcfad33d9f171eeb9ae702c6265389f27c41a35221edf00c1a0",
+          "arguments": [
+            "message:m_b2d953bb4ccb4e559b3f04b055203f29",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_b2d953bb4ccb4e559b3f04b055203f29",
+              "source": "Received, we\u2019ll take care of it.",
+              "received_at": "2026-10-13T04:00:00+00:00",
+              "hash": "b1b9a84d1047a2e8fd442a2406956a34a117c9bb256338e315a621d8d309fd27"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "insufficient_evidence",
+              "confidence": 0.8883,
+              "probabilities": {
+                "contradicted": 0.041,
+                "insufficient_evidence": 0.9255,
+                "supported": 0.0334
+              },
+              "type": "choice"
+            },
+            "latency_ms": 460.1,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 184,
+              "output_tokens": 71
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_430d8e3c960534896f318fbaa024db7b976ff6a6e7b7117a3cd085b5a9cc59ee"
+        },
+        {
+          "status": "insufficient_evidence",
+          "origin": "model_assessment",
+          "raw_id": "raw_6540727f40c64aa1a183ef508375e409",
+          "predicate": "message_requests_info",
+          "definition_id": "d_6b7b607fbe22c87950f85e9a30d7d2a0a894413dda13663242b54169143ae9af",
+          "arguments": [
+            "message:m_b2d953bb4ccb4e559b3f04b055203f29",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_b2d953bb4ccb4e559b3f04b055203f29",
+              "source": "Received, we\u2019ll take care of it.",
+              "received_at": "2026-10-13T04:00:00+00:00",
+              "hash": "b1b9a84d1047a2e8fd442a2406956a34a117c9bb256338e315a621d8d309fd27"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "insufficient_evidence",
+              "confidence": 0.769,
+              "probabilities": {
+                "contradicted": 0.1468,
+                "insufficient_evidence": 0.846,
+                "supported": 0.0073
+              },
+              "type": "choice"
+            },
+            "latency_ms": 299.1,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 142,
+              "output_tokens": 70
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_9bf0e9bc4f304541ccf556be9cc62729c6ec03f0627850d3a50aa7a22f5170e1"
+        },
+        {
+          "status": "insufficient_evidence",
+          "origin": "model_assessment",
+          "raw_id": "raw_41f0554899dc454a94f76e9925a4036b",
+          "predicate": "message_acknowledges",
+          "definition_id": "d_bfa9cb0abee95dc014ff745aeffc680f8af6ade59021ae3478facca65e54c9b1",
+          "arguments": [
+            "message:m_913f6a7c89fc4f1faa6843c5f902fdcd",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_913f6a7c89fc4f1faa6843c5f902fdcd",
+              "source": "All set.",
+              "received_at": "2026-10-21T04:00:00+00:00",
+              "hash": "08a8383436ead941647df6492616a031c4fe637d45ab9fdd942f7b469694cfcd"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "insufficient_evidence",
+              "confidence": 0.567,
+              "probabilities": {
+                "contradicted": 0.0629,
+                "insufficient_evidence": 0.7114,
+                "supported": 0.2257
+              },
+              "type": "choice"
+            },
+            "latency_ms": 488.7,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 130,
+              "output_tokens": 71
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_c153a1139cb4c2687751f1e7cb23f29679792699bdd6489c3cba8916b9f05910"
+        },
+        {
+          "status": "insufficient_evidence",
+          "origin": "model_assessment",
+          "raw_id": "raw_f9f56808e0014e3e89c08fb9d7890b3b",
+          "predicate": "message_promises",
+          "definition_id": "d_6466775b73a31eaad0e42581fc10f5335e29a4981c5339ae5644b0caed7a966a",
+          "arguments": [
+            "message:m_913f6a7c89fc4f1faa6843c5f902fdcd",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_913f6a7c89fc4f1faa6843c5f902fdcd",
+              "source": "All set.",
+              "received_at": "2026-10-21T04:00:00+00:00",
+              "hash": "08a8383436ead941647df6492616a031c4fe637d45ab9fdd942f7b469694cfcd"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "insufficient_evidence",
+              "confidence": 0.5267,
+              "probabilities": {
+                "contradicted": 0.0432,
+                "insufficient_evidence": 0.6845,
+                "supported": 0.2723
+              },
+              "type": "choice"
+            },
+            "latency_ms": 316.4,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 141,
+              "output_tokens": 72
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_509e3124da32938ef91480738a631e1e9a11b381f4413c1214a64e6e65e4ca17"
+        },
+        {
+          "status": "supported",
+          "origin": "model_assessment",
+          "raw_id": "raw_49de30775ba547a78e3b2254f65fc9f2",
+          "predicate": "message_claims_completion",
+          "definition_id": "d_09574e74dbd05fcfad33d9f171eeb9ae702c6265389f27c41a35221edf00c1a0",
+          "arguments": [
+            "message:m_913f6a7c89fc4f1faa6843c5f902fdcd",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_913f6a7c89fc4f1faa6843c5f902fdcd",
+              "source": "All set.",
+              "received_at": "2026-10-21T04:00:00+00:00",
+              "hash": "08a8383436ead941647df6492616a031c4fe637d45ab9fdd942f7b469694cfcd"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "supported",
+              "confidence": 0.5117,
+              "probabilities": {
+                "contradicted": 0.0261,
+                "insufficient_evidence": 0.2994,
+                "supported": 0.6745
+              },
+              "type": "choice"
+            },
+            "latency_ms": 466.1,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 178,
+              "output_tokens": 69
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_de4fa9dc604924b1cada2e05e933762dc9fd9174c422c8724b61f6f5b10babb5"
+        },
+        {
+          "status": "insufficient_evidence",
+          "origin": "model_assessment",
+          "raw_id": "raw_07d7b928dc094e0390b7c625a456f089",
+          "predicate": "message_requests_info",
+          "definition_id": "d_6b7b607fbe22c87950f85e9a30d7d2a0a894413dda13663242b54169143ae9af",
+          "arguments": [
+            "message:m_913f6a7c89fc4f1faa6843c5f902fdcd",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_913f6a7c89fc4f1faa6843c5f902fdcd",
+              "source": "All set.",
+              "received_at": "2026-10-21T04:00:00+00:00",
+              "hash": "08a8383436ead941647df6492616a031c4fe637d45ab9fdd942f7b469694cfcd"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "insufficient_evidence",
+              "confidence": 0.4927,
+              "probabilities": {
+                "contradicted": 0.3235,
+                "insufficient_evidence": 0.6618,
+                "supported": 0.0148
+              },
+              "type": "choice"
+            },
+            "latency_ms": 301.7,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 136,
+              "output_tokens": 72
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_ca5c3e1a5ed679e43f1ec79c36a393fb74fe426b3cf02db4c6a12e20e50c3fe1"
+        },
+        {
+          "status": "insufficient_evidence",
+          "origin": "model_assessment",
+          "raw_id": "raw_46656b2aaf744e89b1619f8ee28f6816",
+          "predicate": "message_acknowledges",
+          "definition_id": "d_bfa9cb0abee95dc014ff745aeffc680f8af6ade59021ae3478facca65e54c9b1",
+          "arguments": [
+            "message:m_94f6c3a08199480f8774fa7eb92b07f9",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_94f6c3a08199480f8774fa7eb92b07f9",
+              "source": "Corrected appointment confirmation: Alex Example, 2026-11-01 through 2026-12-31, funding account FUND-A.",
+              "received_at": "2026-10-26T04:00:00+00:00",
+              "hash": "640b1ad7a193c5f6f6400901c36ea5acf08c77517878ac7448f0a4c82af9fe51"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "insufficient_evidence",
+              "confidence": 0.4972,
+              "probabilities": {
+                "contradicted": 0.032,
+                "insufficient_evidence": 0.6648,
+                "supported": 0.3031
+              },
+              "type": "choice"
+            },
+            "latency_ms": 1307.7,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 165,
+              "output_tokens": 71
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_1f5b4cf808d996e89cb3e944418ce4d8716a772c76266f3582f38e579631a59f"
+        },
+        {
+          "status": "insufficient_evidence",
+          "origin": "model_assessment",
+          "raw_id": "raw_8b14eff6bb5a418ca54d0480f3234933",
+          "predicate": "message_promises",
+          "definition_id": "d_6466775b73a31eaad0e42581fc10f5335e29a4981c5339ae5644b0caed7a966a",
+          "arguments": [
+            "message:m_94f6c3a08199480f8774fa7eb92b07f9",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_94f6c3a08199480f8774fa7eb92b07f9",
+              "source": "Corrected appointment confirmation: Alex Example, 2026-11-01 through 2026-12-31, funding account FUND-A.",
+              "received_at": "2026-10-26T04:00:00+00:00",
+              "hash": "640b1ad7a193c5f6f6400901c36ea5acf08c77517878ac7448f0a4c82af9fe51"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "insufficient_evidence",
+              "confidence": 0.2892,
+              "probabilities": {
+                "contradicted": 0.0273,
+                "insufficient_evidence": 0.5261,
+                "supported": 0.4466
+              },
+              "type": "choice"
+            },
+            "latency_ms": 316.2,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 176,
+              "output_tokens": 72
+            }
+          },
+          "acceptance": "policy_abstention",
+          "id": "j_054bd295f0c082b00a027a2ea9602f7fa00b469d0d4ce59c4c11625a9d38070a"
+        },
+        {
+          "status": "supported",
+          "origin": "model_assessment",
+          "raw_id": "raw_689b87c4da7a47e1911eacf09d453f78",
+          "predicate": "message_claims_completion",
+          "definition_id": "d_09574e74dbd05fcfad33d9f171eeb9ae702c6265389f27c41a35221edf00c1a0",
+          "arguments": [
+            "message:m_94f6c3a08199480f8774fa7eb92b07f9",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_94f6c3a08199480f8774fa7eb92b07f9",
+              "source": "Corrected appointment confirmation: Alex Example, 2026-11-01 through 2026-12-31, funding account FUND-A.",
+              "received_at": "2026-10-26T04:00:00+00:00",
+              "hash": "640b1ad7a193c5f6f6400901c36ea5acf08c77517878ac7448f0a4c82af9fe51"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "supported",
+              "confidence": 0.6323,
+              "probabilities": {
+                "contradicted": 0.0292,
+                "insufficient_evidence": 0.2159,
+                "supported": 0.7549
+              },
+              "type": "choice"
+            },
+            "latency_ms": 467.9,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 213,
+              "output_tokens": 69
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_474d9f019a27eaf1ae330ac44e732105bf9bd53e97f33cb172136909caa3689e"
+        },
+        {
+          "status": "insufficient_evidence",
+          "origin": "model_assessment",
+          "raw_id": "raw_004a09220b2642fcbd68ae6845a53dfc",
+          "predicate": "message_requests_info",
+          "definition_id": "d_6b7b607fbe22c87950f85e9a30d7d2a0a894413dda13663242b54169143ae9af",
+          "arguments": [
+            "message:m_94f6c3a08199480f8774fa7eb92b07f9",
+            "request:alex_appointment"
+          ],
+          "evidence": [
+            {
+              "id": "m_94f6c3a08199480f8774fa7eb92b07f9",
+              "source": "Corrected appointment confirmation: Alex Example, 2026-11-01 through 2026-12-31, funding account FUND-A.",
+              "received_at": "2026-10-26T04:00:00+00:00",
+              "hash": "640b1ad7a193c5f6f6400901c36ea5acf08c77517878ac7448f0a4c82af9fe51"
+            },
+            {
+              "id": "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+              "source": "Requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "43eb72fe1b6900ff6d93deebb3eb03b64c60dce9e770eee99b47cb1e32684722"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "insufficient_evidence",
+              "confidence": 0.7336,
+              "probabilities": {
+                "contradicted": 0.1544,
+                "insufficient_evidence": 0.8224,
+                "supported": 0.0232
+              },
+              "type": "choice"
+            },
+            "latency_ms": 308.2,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 171,
+              "output_tokens": 72
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_62d9fa2efe6e78c1588b9bfdb201a41dce31ba227770c38c470d1a20b03367e4"
+        },
+        {
+          "status": "supported",
+          "origin": "model_assessment",
+          "raw_id": "raw_afe750a9e84b42309ee117fe8c0f0f30",
+          "predicate": "evidence_addresses",
+          "definition_id": "d_292ffc6ec5bb207d82b398d76b9b92e9def39f0d811066d7f81dd3b916c56e6f",
+          "arguments": [
+            "message:m_94f6c3a08199480f8774fa7eb92b07f9",
+            "requirement:appointment_confirmation"
+          ],
+          "evidence": [
+            {
+              "id": "m_94f6c3a08199480f8774fa7eb92b07f9",
+              "source": "Corrected appointment confirmation: Alex Example, 2026-11-01 through 2026-12-31, funding account FUND-A.",
+              "received_at": "2026-10-26T04:00:00+00:00",
+              "hash": "640b1ad7a193c5f6f6400901c36ea5acf08c77517878ac7448f0a4c82af9fe51"
+            },
+            {
+              "id": "tpl_7d38b83edbac2de2f73068b2731d43806dfce1fb33a2f0e5b21e92c983030dc3",
+              "source": "Illustrative faculty-configured workflow, not institutional policy.; evidence required: appointment_confirmation; requested outcome: Appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+              "hash": "af2839616d05e5a6344c8812103aba4a6c7ff732282286dbba55d8a8d5a013a0"
+            }
+          ],
+          "policy": {
+            "margin": 0.2,
+            "threshold": 0.6,
+            "version": "development-admin-v2"
+          },
+          "raw": {
+            "answer": {
+              "choice": "supported",
+              "confidence": 0.5437,
+              "probabilities": {
+                "contradicted": 0.0562,
+                "insufficient_evidence": 0.248,
+                "supported": 0.6958
+              },
+              "type": "choice"
+            },
+            "latency_ms": 771.0,
+            "server_configuration": {
+              "backend": "mlx",
+              "base": "Qwen/Qwen3.5-4B-Base",
+              "dtype": "bfloat16",
+              "run": "jaredpalmer/kev-4b@v1.0",
+              "temperature": 2.406050072164233
+            },
+            "server_model": "kev-latest",
+            "usage": {
+              "input_tokens": 226,
+              "output_tokens": 68
+            }
+          },
+          "acceptance": "threshold_met",
+          "id": "j_da5a4c6370a9247907bfba655e137fd27d1e2dfae35e07ac16b9efdbf7292ff6"
+        }
+      ],
+      "unresolved_assessments": [
+        {
+          "message": "m_2904e092ead34abcaaa95c81b72a3f37",
+          "predicate": "message_acknowledges",
+          "status": "insufficient_evidence"
+        },
+        {
+          "message": "m_2904e092ead34abcaaa95c81b72a3f37",
+          "predicate": "message_promises",
+          "status": "insufficient_evidence"
+        },
+        {
+          "message": "m_2904e092ead34abcaaa95c81b72a3f37",
+          "predicate": "message_claims_completion",
+          "status": "insufficient_evidence"
+        },
+        {
+          "message": "m_2904e092ead34abcaaa95c81b72a3f37",
+          "predicate": "message_requests_info",
+          "status": "insufficient_evidence"
+        },
+        {
+          "message": "m_b2d953bb4ccb4e559b3f04b055203f29",
+          "predicate": "message_claims_completion",
+          "status": "insufficient_evidence"
+        },
+        {
+          "message": "m_b2d953bb4ccb4e559b3f04b055203f29",
+          "predicate": "message_requests_info",
+          "status": "insufficient_evidence"
+        },
+        {
+          "message": "m_913f6a7c89fc4f1faa6843c5f902fdcd",
+          "predicate": "message_acknowledges",
+          "status": "insufficient_evidence"
+        },
+        {
+          "message": "m_913f6a7c89fc4f1faa6843c5f902fdcd",
+          "predicate": "message_promises",
+          "status": "insufficient_evidence"
+        },
+        {
+          "message": "m_913f6a7c89fc4f1faa6843c5f902fdcd",
+          "predicate": "message_requests_info",
+          "status": "insufficient_evidence"
+        },
+        {
+          "message": "m_94f6c3a08199480f8774fa7eb92b07f9",
+          "predicate": "message_acknowledges",
+          "status": "insufficient_evidence"
+        },
+        {
+          "message": "m_94f6c3a08199480f8774fa7eb92b07f9",
+          "predicate": "message_promises",
+          "status": "insufficient_evidence"
+        },
+        {
+          "message": "m_94f6c3a08199480f8774fa7eb92b07f9",
+          "predicate": "message_requests_info",
+          "status": "insufficient_evidence"
+        }
+      ],
+      "steps": [
+        {
+          "name": "submission",
+          "established": true,
+          "requires": []
+        },
+        {
+          "name": "verification",
+          "established": true,
+          "requires": [
+            "submission",
+            "appointment_confirmation"
+          ]
+        }
+      ],
+      "dependencies": [],
+      "support": [
+        "w_e467e19475a84fc0ae07f02dbbcc3b4b",
+        "w_2202dd30dffd4299a6839cd0648385b1",
+        "w_adb8769d2d074a41a05d700b6cf31213",
+        "w_25ea4dfe688943ba8545ce1b77ccead6",
+        "w_b0dff2397dcb4723addd98a100db5c1e",
+        "w_611c46b34d5a4f78afc80339cd84fae8",
+        "w_1b73bc1629524acf87b5f09426f7b949",
+        "w_5133515f91c54d21b0c4649fff2726ac",
+        "w_8ec8321bb5464065ac432685e0430dc9",
+        "w_984acc310db647d19cee8d3c092e7ebb",
+        "w_552a5e0a0ba349beae0ec97d9a395492",
+        "w_9fa934b504224ea6a93dea16367c12ca",
+        "w_52989b09602c46eab353da07eeb0a38b",
+        "w_4c7526fce15d4a6aa12c7ee85a434150",
+        "w_9d026ab9ca984c30a93dde5f1cba6006",
+        "w_351df8acf9e14cf8ac0f805e39b9fe64",
+        "w_8014525c5ae64da3a0eca0d51ceaf7e2",
+        "w_c951d855e86a449781d69fd202c2d628",
+        "w_ac3eb8bfe939445bbec771671f3cbfd2",
+        "w_a81567fd99c04f4badbc1d012592158e",
+        "w_90d15f79188846d59555f62da02fc011",
+        "w_be773d0ae3ce437eb661c3b536990695",
+        "w_77aa2c435ad9450e82660da4db803891",
+        "w_092fe784396e4031bad47627a24cbf69"
+      ],
+      "done": true,
+      "stale_date": null,
+      "unresolved_dependencies": [],
+      "flags": [],
+      "priority": 99,
+      "suggested_action": "No follow-up required under the recorded template."
+    }
+  ],
+  "unassigned_messages": [
+    {
+      "source_id": "m_c672180252984b9896a9baa1b4874a1d",
+      "text": "Please appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A. Submitted October 12, 2026 to the fictional Appointments Office. My follow-up date is October 20, 2026 and my intervention date is October 25, 2026.",
+      "extraction": {
+        "absent_documents": [
+          "appointment_confirmation"
+        ],
+        "dates": [
+          {
+            "basis": "user_preference",
+            "role": "submission",
+            "value": "2026-10-12"
+          },
+          {
+            "basis": "user_preference",
+            "role": "follow_up",
+            "value": "2026-10-20"
+          },
+          {
+            "basis": "user_preference",
+            "role": "intervention",
+            "value": "2026-10-25"
+          }
+        ],
+        "dependencies": [
+          "submission",
+          "appointment_confirmation"
+        ],
+        "desired_outcome": "student_appointment",
+        "documents": [],
+        "expected": [
+          {
+            "name": "person",
+            "value": "Alex Example"
+          },
+          {
+            "name": "start_date",
+            "value": "2026-11-01"
+          },
+          {
+            "name": "end_date",
+            "value": "2026-12-31"
+          },
+          {
+            "name": "funding_account",
+            "value": "FUND-A"
+          }
+        ],
+        "explanation": "The source text contains a request for an appointment but does not contain a confirmation document or observed fields (such as actual start/end dates, funding account verification, or person name in the context of a completed record). The text includes user preferences ('My follow-up date is...') and submission claims ('Submitted October 12, 2026'), which are not documented outcomes. Additionally, the specific year '2026' makes the dates future-dated relative to typical current contexts, but without an explicit confirmation document stating these are the *observed* facts of a completed action, they cannot be extracted as administrative facts per the instruction to leave fields absent if not stated as confirmed outcomes. The request lacks the required 'appointment_confirmation' document evidence.",
+        "observed": [],
+        "request_id": "request:alex_appointment",
+        "responsible": "fictional Appointments Office",
+        "status": "clarify"
+      }
+    },
+    {
+      "source_id": "m_f57303e7f0a34c7d9059ff8b47ae7ea0",
+      "text": "Please appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A. Submitted October 12, 2026 to the fictional Appointments Office. My follow-up date is October 20, 2026 and my intervention date is October 25, 2026.",
+      "extraction": {
+        "absent_documents": [],
+        "dates": [
+          {
+            "basis": "documented",
+            "role": "submission",
+            "value": "2026-10-12"
+          },
+          {
+            "basis": "user_preference",
+            "role": "follow_up",
+            "value": "2026-10-20"
+          },
+          {
+            "basis": "user_preference",
+            "role": "intervention",
+            "value": "2026-10-25"
+          }
+        ],
+        "dependencies": [],
+        "desired_outcome": "appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A",
+        "documents": [],
+        "expected": [
+          {
+            "name": "person",
+            "value": "Alex Example"
+          },
+          {
+            "name": "start_date",
+            "value": "2026-11-01"
+          },
+          {
+            "name": "end_date",
+            "value": "2026-12-31"
+          },
+          {
+            "name": "funding_account",
+            "value": "FUND-A"
+          }
+        ],
+        "explanation": "Unknown template field: submission",
+        "observed": [
+          {
+            "name": "submission",
+            "value": "2026-10-12"
+          },
+          {
+            "name": "follow_up",
+            "value": "2026-10-20"
+          },
+          {
+            "name": "intervention",
+            "value": "2026-10-25"
+          }
+        ],
+        "request_id": "request:alex_appointment",
+        "responsible": "",
+        "status": "clarify"
+      }
+    },
+    {
+      "source_id": "m_ec2598cffffd47fa860578f10ca155a6",
+      "text": "Received, we\u2019ll take care of it.",
+      "extraction": {
+        "absent_documents": [],
+        "dates": [
+          {
+            "basis": "documented",
+            "role": "submission",
+            "value": "2026-10-13"
+          },
+          {
+            "basis": "user_preference",
+            "role": "follow_up",
+            "value": ""
+          }
+        ],
+        "dependencies": [],
+        "desired_outcome": "",
+        "documents": [],
+        "expected": [],
+        "explanation": "Ambiguous date: require YYYY-MM-DD",
+        "observed": [],
+        "request_id": "request:alex_appointment",
+        "responsible": "",
+        "status": "clarify"
+      }
+    }
+  ],
+  "metrics": {
+    "cache_hits": 17,
+    "memo_hits": 0,
+    "new_judgments": 0,
+    "backend_calls": 0,
+    "backend_requests": 0,
+    "model_latency_ms": 0,
+    "backend_wall_seconds": 0
+  },
+  "complete": false,
+  "stopping_reasons": []
+}

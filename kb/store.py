@@ -24,6 +24,16 @@ class Store:
             proposal TEXT NOT NULL, created_at TEXT NOT NULL);
         ''')
 
+        from .semantic import install
+        install(self.db)
+
+    def note(self, source, explanation):
+        from .semantic import now
+        ident = "n_" + uuid.uuid4().hex
+        with self.db:
+            self.db.execute("INSERT INTO source_notes VALUES(?,?,?,?)", (ident, source, explanation, now()))
+        return ident
+
     def close(self):
         self.db.close()
 
@@ -48,7 +58,8 @@ class Store:
             else:
                 atoms = [row["assertion"]["head"]] + row["assertion"]["body"]
                 names = {t["const"].split(":", 1)[1] for a in atoms for t in a["args"] if "const" in t}
-                score = len(names & tokens)
+                normalized = " " + " ".join(re.findall(r"[a-z0-9]+", text.lower())) + " "
+                score = sum(name in tokens or " " + name.replace("_", " ").replace("-", " ") + " " in normalized for name in names)
                 if row["id"] in tokens:
                     score += 100
             if score:
@@ -84,6 +95,29 @@ class Store:
                 created.append(ident)
             self.db.execute("UPDATE meta SET revision=revision+1 WHERE id=1")
         return {"created": created, "retracted": proposal["targets"], "revision": revision + 1}
+
+    def import_records(self, records, source):
+        """Atomic reviewed domain fixture import, retaining each original source."""
+        if not isinstance(records,list) or not 1 <= len(records) <= 1000:
+            raise Invalid('Import requires 1–1000 source/assertion records')
+        for record in records:
+            if set(record) != {'source','assertion'} or not isinstance(record['source'],str) or not record['source'].strip():
+                raise Invalid('Import entries need original source and assertion')
+            validate_assertion(record['assertion'])
+        event='e_'+uuid.uuid4().hex
+        timestamp=datetime.now(timezone.utc).isoformat()
+        ids=[]
+        with self.db:
+            self.db.execute('BEGIN IMMEDIATE')
+            count=self.db.execute("SELECT count(*) FROM assertions WHERE status='active'").fetchone()[0]
+            if count+len(records)>1000: raise Invalid('Active assertion limit exceeded')
+            self.db.execute('INSERT INTO events VALUES(?,?,?,?,?)',(event,'import',source,json.dumps(records),timestamp))
+            for record in records:
+                ident='a_'+uuid.uuid4().hex;ids.append(ident)
+                self.db.execute('INSERT INTO assertions VALUES(?,?,?,?,?,?,?,?)',
+                    (ident,json.dumps(record['assertion']),record['source'],timestamp,'active',None,None,event))
+            self.db.execute('UPDATE meta SET revision=revision+1 WHERE id=1')
+        return {'created':ids,'event':event}
 
     def events(self):
         return [dict(row) for row in self.db.execute("SELECT * FROM events ORDER BY rowid")]

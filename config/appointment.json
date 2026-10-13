@@ -1,0 +1,12 @@
+{
+  "name": "student_appointment",
+  "version": "fictional-v1",
+  "description": "Illustrative faculty-configured workflow, not institutional policy.",
+  "fields": {"person":"text", "start_date":"date", "end_date":"date", "funding_account":"identifier", "allocation":"percent"},
+  "required_fields": ["person","start_date","end_date","funding_account"],
+  "required_documents": ["appointment_confirmation"],
+  "verification_requirement": "requirement:appointment_confirmation",
+  "acceptable_evidence_kinds": ["confirmation"],
+  "steps": [{"name":"submission", "requires":[]}, {"name":"verification", "requires":["submission","appointment_confirmation"]}],
+  "follow_up": {"stale_after_days":null, "lead_time_unit":"calendar_days", "basis":"user_preference"}
+}

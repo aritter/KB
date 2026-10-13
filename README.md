@@ -1,8 +1,23 @@
 # Editable symbolic KB research prototype
 
+**Primary practical demo: [administrative workflow tracking](ADMIN_WORKFLOWS.md).** Track acknowledgments, promises, completion claims, exact discrepancies, and evidence-backed verification without sending messages or changing external systems. The [research coordination application](RESEARCH_COORDINATION.md) is retained and shares the same persistent [Kev gateway](KEV_SETUP.md).
+
+```bash
+python3 -m unittest discover -s tests -v
+python3 -m examples.admin_demo --backend counting_mock --db admin-demo.sqlite3
+```
+
+For the latest stopping point and one-command resume check, see [HANDOFF.md](HANDOFF.md).
+
+See [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) for the current testing sequence and staged roadmap.
+
+Choose a fresh demo database. The deterministic demos explicitly use fixture outputs; user-run real Kev results are recorded in evaluation reports, while the complete live extraction-to-verification path remains unverified. See the linked guides for full setup, ingestion, corrections, dated reports, limits, and real-model smoke commands. **No background monitor is running.**
+
+The remainder documents the original positive-knowledge milestone, which remains supported.
+
 A frozen local LLM translates natural language into a small validated logical language. SQLite persists accepted assertions and their sources. SWI-Prolog derives answers and supporting assertion IDs. The model neither executes code nor supplies the final answer or proof.
 
-**Implementation status:** All 20 deterministic tests pass on Python 3.14.4 and SWI-Prolog 10.0.2 for arm64-darwin, including real inference, corrections, retractions, and fresh-process restart checks. All 10 gold-inference evaluation cases pass. This session has Ollama client 0.35.1, but sandbox restrictions prevent connecting to localhost (`Operation not permitted`). Local-model translations, memory usage, and the full model-driven demo remain **unverified**. Unavailable runtimes are reported explicitly, not counted as successful tests.
+**Implementation status:** All 64 deterministic tests pass on Python 3.14.4 and SWI-Prolog 10.0.2 for arm64-darwin, including real inference, corrections, retractions, and fresh-process restart checks. All 10 gold-inference evaluation cases pass. This session has Ollama client 0.35.1, but sandbox restrictions prevent connecting to localhost (`Operation not permitted`). Local-model translations, memory usage, and the full model-driven demo remain **unverified**. Unavailable runtimes are reported explicitly, not counted as successful tests.
 
 ## Apple Silicon setup
 

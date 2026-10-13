@@ -1,0 +1,1047 @@
+{
+  "backend": "kev",
+  "real_model_validation": true,
+  "steps": [
+    {
+      "label": "eligible people: Bob filtered, Carol unresolved",
+      "result": {
+        "rows": [],
+        "unresolved_candidates": [
+          [
+            {
+              "bindings": {
+                "Who": "person:alice"
+              },
+              "needs": [
+                [
+                  "person:alice",
+                  "skill:python"
+                ]
+              ],
+              "reasons": [],
+              "status": "insufficient_evidence",
+              "support": [
+                "a_31fb9a182f024fd0a9ac6088bfff677c",
+                "a_5c42a98e2bc14344b98d92d6ca2e2a7e",
+                "a_74804090efac480885810b11c242f4fc",
+                "a_934754b0e50e442592a382f3930acf5e",
+                "coord:candidate_all_skills_v1"
+              ],
+              "judgments": [
+                {
+                  "id": "j_81ffa547ef8d402cbcfedf72dbafb925",
+                  "status": "backend_error",
+                  "origin": "backend_error",
+                  "raw_id": null,
+                  "definition_id": "d_fbbd6325229ad19dfafdf6743626d75dec18293cdc7f27d76a4a8273e1e2b5da",
+                  "arguments": [
+                    "person:alice",
+                    "skill:python"
+                  ],
+                  "evidence": [
+                    {
+                      "id": "a_19affd0354d94cc7b57cfd90974e43d6",
+                      "profile": "profile:alice",
+                      "source": "Alice built Python pipelines for cleaning, joining, and validating research datasets.",
+                      "hash": "529044454b7b7091e8e6c887dceeed9865d69fb01b810e632210940718fff18a"
+                    }
+                  ],
+                  "policy": {
+                    "margin": 0.2,
+                    "threshold": 0.85,
+                    "version": "provisional-v1"
+                  },
+                  "error": "<urlopen error [Errno 1] Operation not permitted>"
+                }
+              ]
+            }
+          ],
+          [
+            {
+              "bindings": {
+                "Who": "person:carol"
+              },
+              "needs": [
+                [
+                  "person:carol",
+                  "skill:python"
+                ]
+              ],
+              "reasons": [],
+              "status": "insufficient_evidence",
+              "support": [
+                "a_31fb9a182f024fd0a9ac6088bfff677c",
+                "a_5c42a98e2bc14344b98d92d6ca2e2a7e",
+                "a_74804090efac480885810b11c242f4fc",
+                "a_f151aecd3f35487f86b08a769f16c2cf",
+                "coord:candidate_all_skills_v1"
+              ],
+              "judgments": [
+                {
+                  "id": "j_acd7646fa58847b3b08571f5352522dc",
+                  "status": "backend_error",
+                  "origin": "backend_error",
+                  "raw_id": null,
+                  "definition_id": "d_fbbd6325229ad19dfafdf6743626d75dec18293cdc7f27d76a4a8273e1e2b5da",
+                  "arguments": [
+                    "person:carol",
+                    "skill:python"
+                  ],
+                  "evidence": [
+                    {
+                      "id": "a_dda75b4a05bb4cce8747a0aa068fff7c",
+                      "profile": "profile:carol",
+                      "source": "Carol is interested in research and enjoys helping teams.",
+                      "hash": "43f68b187cae05299c39e517cc8f0cc8bbadf5501bb5be4a27aca8d88669ae21"
+                    }
+                  ],
+                  "policy": {
+                    "margin": 0.2,
+                    "threshold": 0.85,
+                    "version": "provisional-v1"
+                  },
+                  "error": "<urlopen error [Errno 1] Operation not permitted>"
+                }
+              ]
+            }
+          ]
+        ],
+        "rejected_candidates": [
+          [
+            {
+              "bindings": {
+                "Who": "person:bob"
+              },
+              "needs": [],
+              "reasons": [
+                "unavailable"
+              ],
+              "status": "contradicted",
+              "support": [
+                "a_74804090efac480885810b11c242f4fc",
+                "a_c863611a970a4d5fad31356acb40a6cf",
+                "coord:candidate_all_skills_v1"
+              ],
+              "judgments": []
+            }
+          ]
+        ],
+        "complete": false,
+        "pending_requests": [],
+        "metrics": {
+          "cache_hits": 0,
+          "memo_hits": 0,
+          "new_judgments": 2,
+          "backend_calls": 2,
+          "backend_requests": 2,
+          "model_latency_ms": 0,
+          "backend_wall_seconds": 0.002106917032506317,
+          "symbolic_steps": 5267
+        },
+        "stopping_reasons": [
+          "backend_error"
+        ],
+        "symbolic_error": null,
+        "coverage_warnings": [],
+        "answer": "0 supported answer(s); 2 unresolved candidate(s).",
+        "coverage_scope": "Declared entities and dependency edges in the active snapshot; eligibility is not authorization or capacity."
+      }
+    },
+    {
+      "label": "same Python judgments reused for baseline",
+      "result": {
+        "rows": [],
+        "unresolved_candidates": [
+          [
+            {
+              "bindings": {
+                "Who": "person:alice"
+              },
+              "needs": [
+                [
+                  "person:alice",
+                  "skill:python"
+                ]
+              ],
+              "reasons": [],
+              "status": "insufficient_evidence",
+              "support": [
+                "a_23f9e3e8bcfe4bc9a16e870e501ba276",
+                "a_67635e4b256a419c934df4dd91589693",
+                "a_7eca0528085649d488f8ae4d76f97411",
+                "a_934754b0e50e442592a382f3930acf5e",
+                "coord:candidate_all_skills_v1"
+              ],
+              "judgments": [
+                {
+                  "id": "j_59204a40fd184ef9845a4cd3333b2009",
+                  "status": "backend_error",
+                  "origin": "backend_error",
+                  "raw_id": null,
+                  "definition_id": "d_fbbd6325229ad19dfafdf6743626d75dec18293cdc7f27d76a4a8273e1e2b5da",
+                  "arguments": [
+                    "person:alice",
+                    "skill:python"
+                  ],
+                  "evidence": [
+                    {
+                      "id": "a_19affd0354d94cc7b57cfd90974e43d6",
+                      "profile": "profile:alice",
+                      "source": "Alice built Python pipelines for cleaning, joining, and validating research datasets.",
+                      "hash": "529044454b7b7091e8e6c887dceeed9865d69fb01b810e632210940718fff18a"
+                    }
+                  ],
+                  "policy": {
+                    "margin": 0.2,
+                    "threshold": 0.85,
+                    "version": "provisional-v1"
+                  },
+                  "error": "<urlopen error [Errno 1] Operation not permitted>"
+                }
+              ]
+            }
+          ],
+          [
+            {
+              "bindings": {
+                "Who": "person:carol"
+              },
+              "needs": [
+                [
+                  "person:carol",
+                  "skill:python"
+                ]
+              ],
+              "reasons": [],
+              "status": "insufficient_evidence",
+              "support": [
+                "a_23f9e3e8bcfe4bc9a16e870e501ba276",
+                "a_67635e4b256a419c934df4dd91589693",
+                "a_7eca0528085649d488f8ae4d76f97411",
+                "a_f151aecd3f35487f86b08a769f16c2cf",
+                "coord:candidate_all_skills_v1"
+              ],
+              "judgments": [
+                {
+                  "id": "j_6cf12cf805424ca5a63dcfa875bf1e4a",
+                  "status": "backend_error",
+                  "origin": "backend_error",
+                  "raw_id": null,
+                  "definition_id": "d_fbbd6325229ad19dfafdf6743626d75dec18293cdc7f27d76a4a8273e1e2b5da",
+                  "arguments": [
+                    "person:carol",
+                    "skill:python"
+                  ],
+                  "evidence": [
+                    {
+                      "id": "a_dda75b4a05bb4cce8747a0aa068fff7c",
+                      "profile": "profile:carol",
+                      "source": "Carol is interested in research and enjoys helping teams.",
+                      "hash": "43f68b187cae05299c39e517cc8f0cc8bbadf5501bb5be4a27aca8d88669ae21"
+                    }
+                  ],
+                  "policy": {
+                    "margin": 0.2,
+                    "threshold": 0.85,
+                    "version": "provisional-v1"
+                  },
+                  "error": "<urlopen error [Errno 1] Operation not permitted>"
+                }
+              ]
+            }
+          ]
+        ],
+        "rejected_candidates": [
+          [
+            {
+              "bindings": {
+                "Who": "person:bob"
+              },
+              "needs": [],
+              "reasons": [
+                "unavailable"
+              ],
+              "status": "contradicted",
+              "support": [
+                "a_67635e4b256a419c934df4dd91589693",
+                "a_c863611a970a4d5fad31356acb40a6cf",
+                "coord:candidate_all_skills_v1"
+              ],
+              "judgments": []
+            }
+          ]
+        ],
+        "complete": false,
+        "pending_requests": [],
+        "metrics": {
+          "cache_hits": 0,
+          "memo_hits": 0,
+          "new_judgments": 2,
+          "backend_calls": 2,
+          "backend_requests": 2,
+          "model_latency_ms": 0,
+          "backend_wall_seconds": 0.000575082958675921,
+          "symbolic_steps": 5267
+        },
+        "stopping_reasons": [
+          "backend_error"
+        ],
+        "symbolic_error": null,
+        "coverage_warnings": [],
+        "answer": "0 supported answer(s); 2 unresolved candidate(s).",
+        "coverage_scope": "Declared entities and dependency edges in the active snapshot; eligibility is not authorization or capacity."
+      }
+    },
+    {
+      "label": "work that can proceed while waiting for dataset access",
+      "result": {
+        "rows": [
+          {
+            "bindings": {
+              "Task": "task:document_protocol"
+            },
+            "needs": [],
+            "reasons": [],
+            "status": "supported",
+            "support": [
+              "a_059fbf82f9ac4462929a29076a733f04",
+              "a_e19e76a42772474eaf2695d7fe604d2e",
+              "a_e204b12d674346f1b8f309db6efce314",
+              "coord:ready_v1"
+            ],
+            "judgments": []
+          }
+        ],
+        "unresolved_candidates": [],
+        "rejected_candidates": [
+          [
+            {
+              "bindings": {
+                "Task": "task:preprocess"
+              },
+              "needs": [],
+              "reasons": [
+                "status:pending",
+                "reason:unavailable_resource"
+              ],
+              "status": "contradicted",
+              "support": [
+                "a_130bb8434a6a42e39ae7efb44c5b607d",
+                "a_5c42a98e2bc14344b98d92d6ca2e2a7e",
+                "a_5efe89f197994d1caa4f278a234e6a92",
+                "a_74804090efac480885810b11c242f4fc",
+                "a_d3a48e813f374497897235c66e9ff8cf",
+                "coord:ready_v1"
+              ],
+              "judgments": []
+            }
+          ],
+          [
+            {
+              "bindings": {
+                "Task": "task:baseline"
+              },
+              "needs": [],
+              "reasons": [
+                "status:pending",
+                "reason:unmet_task"
+              ],
+              "status": "contradicted",
+              "support": [
+                "a_18e0980ccade4fce869bc7a329df65cd",
+                "a_23f9e3e8bcfe4bc9a16e870e501ba276",
+                "a_39368d01bd094621bdfefecc45d79bac",
+                "a_5efe89f197994d1caa4f278a234e6a92",
+                "a_67635e4b256a419c934df4dd91589693",
+                "a_c74e8debdee0459aa852ed8ae85b03d7",
+                "a_d5ef919b55ae4ea9bd144c56b071d085",
+                "coord:ready_v1"
+              ],
+              "judgments": []
+            }
+          ],
+          [
+            {
+              "bindings": {
+                "Task": "task:validate"
+              },
+              "needs": [],
+              "reasons": [
+                "status:pending",
+                "reason:unmet_task"
+              ],
+              "status": "contradicted",
+              "support": [
+                "a_18e0980ccade4fce869bc7a329df65cd",
+                "a_1b22a52ea7b640499d7ebb567f88bd84",
+                "a_64d4a5bf3e004d2790f93ce72162f13f",
+                "a_d40e7867a0064dea89a80b4794f672e0",
+                "a_f9d5e6f8ecb74ee592d2fa570bbe5ebe",
+                "coord:ready_v1"
+              ],
+              "judgments": []
+            }
+          ]
+        ],
+        "complete": true,
+        "pending_requests": [],
+        "metrics": {
+          "cache_hits": 0,
+          "memo_hits": 0,
+          "new_judgments": 0,
+          "backend_calls": 0,
+          "backend_requests": 0,
+          "model_latency_ms": 0,
+          "backend_wall_seconds": 0,
+          "symbolic_steps": 5714
+        },
+        "stopping_reasons": [],
+        "symbolic_error": null,
+        "coverage_warnings": [],
+        "answer": "1 supported answer(s); 0 unresolved candidate(s).",
+        "coverage_scope": "Declared entities and dependency edges in the active snapshot; eligibility is not authorization or capacity."
+      }
+    },
+    {
+      "label": "milestone blockers, including transitive prerequisites",
+      "result": {
+        "rows": [
+          {
+            "bindings": {
+              "Dependency": "task:baseline",
+              "Reason": "reason:unmet_task"
+            },
+            "needs": [],
+            "reasons": [],
+            "status": "supported",
+            "support": [
+              "a_18e0980ccade4fce869bc7a329df65cd",
+              "a_c11b5dd95ea5413ba2f3cd4a8f03aa5f",
+              "a_d40e7867a0064dea89a80b4794f672e0",
+              "coord:milestone_blocker_v1"
+            ],
+            "judgments": []
+          },
+          {
+            "bindings": {
+              "Dependency": "task:preprocess",
+              "Reason": "reason:unmet_task"
+            },
+            "needs": [],
+            "reasons": [],
+            "status": "supported",
+            "support": [
+              "a_5efe89f197994d1caa4f278a234e6a92",
+              "a_c11b5dd95ea5413ba2f3cd4a8f03aa5f",
+              "a_d40e7867a0064dea89a80b4794f672e0",
+              "a_d5ef919b55ae4ea9bd144c56b071d085",
+              "coord:milestone_blocker_v1"
+            ],
+            "judgments": []
+          },
+          {
+            "bindings": {
+              "Dependency": "dataset:d",
+              "Reason": "reason:unavailable_resource"
+            },
+            "needs": [],
+            "reasons": [],
+            "status": "supported",
+            "support": [
+              "a_130bb8434a6a42e39ae7efb44c5b607d",
+              "a_c11b5dd95ea5413ba2f3cd4a8f03aa5f",
+              "a_d3a48e813f374497897235c66e9ff8cf",
+              "a_d40e7867a0064dea89a80b4794f672e0",
+              "a_d5ef919b55ae4ea9bd144c56b071d085",
+              "coord:milestone_blocker_v1"
+            ],
+            "judgments": []
+          },
+          {
+            "bindings": {
+              "Dependency": "task:validate",
+              "Reason": "reason:unfinished_task"
+            },
+            "needs": [],
+            "reasons": [],
+            "status": "supported",
+            "support": [
+              "a_64d4a5bf3e004d2790f93ce72162f13f",
+              "a_c11b5dd95ea5413ba2f3cd4a8f03aa5f",
+              "coord:milestone_completion_v1"
+            ],
+            "judgments": []
+          },
+          {
+            "bindings": {
+              "Dependency": "task:baseline",
+              "Reason": "reason:unfinished_task"
+            },
+            "needs": [],
+            "reasons": [],
+            "status": "supported",
+            "support": [
+              "a_18e0980ccade4fce869bc7a329df65cd",
+              "a_c11b5dd95ea5413ba2f3cd4a8f03aa5f",
+              "a_d40e7867a0064dea89a80b4794f672e0",
+              "coord:milestone_completion_v1"
+            ],
+            "judgments": []
+          },
+          {
+            "bindings": {
+              "Dependency": "task:preprocess",
+              "Reason": "reason:unfinished_task"
+            },
+            "needs": [],
+            "reasons": [],
+            "status": "supported",
+            "support": [
+              "a_5efe89f197994d1caa4f278a234e6a92",
+              "a_c11b5dd95ea5413ba2f3cd4a8f03aa5f",
+              "a_d40e7867a0064dea89a80b4794f672e0",
+              "a_d5ef919b55ae4ea9bd144c56b071d085",
+              "coord:milestone_completion_v1"
+            ],
+            "judgments": []
+          }
+        ],
+        "unresolved_candidates": [],
+        "rejected_candidates": [],
+        "complete": true,
+        "pending_requests": [],
+        "metrics": {
+          "cache_hits": 0,
+          "memo_hits": 0,
+          "new_judgments": 0,
+          "backend_calls": 0,
+          "backend_requests": 0,
+          "model_latency_ms": 0,
+          "backend_wall_seconds": 0,
+          "symbolic_steps": 5521
+        },
+        "stopping_reasons": [],
+        "symbolic_error": null,
+        "coverage_warnings": [],
+        "answer": "6 supported answer(s); 0 unresolved candidate(s).",
+        "coverage_scope": "Declared entities and dependency edges in the active snapshot; eligibility is not authorization or capacity."
+      }
+    },
+    {
+      "label": "milestone affected by hypothetical dataset loss",
+      "result": {
+        "rows": [
+          {
+            "bindings": {
+              "Milestone": "milestone:evaluation_complete"
+            },
+            "needs": [],
+            "reasons": [],
+            "status": "supported",
+            "support": [
+              "a_130bb8434a6a42e39ae7efb44c5b607d",
+              "a_c11b5dd95ea5413ba2f3cd4a8f03aa5f",
+              "a_d40e7867a0064dea89a80b4794f672e0",
+              "a_d5ef919b55ae4ea9bd144c56b071d085",
+              "coord:affected_v1"
+            ],
+            "judgments": []
+          }
+        ],
+        "unresolved_candidates": [],
+        "rejected_candidates": [],
+        "complete": true,
+        "pending_requests": [],
+        "metrics": {
+          "cache_hits": 0,
+          "memo_hits": 0,
+          "new_judgments": 0,
+          "backend_calls": 0,
+          "backend_requests": 0,
+          "model_latency_ms": 0,
+          "backend_wall_seconds": 0,
+          "symbolic_steps": 4934
+        },
+        "stopping_reasons": [],
+        "symbolic_error": null,
+        "coverage_warnings": [],
+        "answer": "1 supported answer(s); 0 unresolved candidate(s).",
+        "coverage_scope": "Declared entities and dependency edges in the active snapshot; eligibility is not authorization or capacity."
+      }
+    },
+    {
+      "label": "preprocessing becomes structurally ready",
+      "result": {
+        "rows": [
+          {
+            "bindings": {},
+            "needs": [],
+            "reasons": [],
+            "status": "supported",
+            "support": [
+              "a_130bb8434a6a42e39ae7efb44c5b607d",
+              "a_5c42a98e2bc14344b98d92d6ca2e2a7e",
+              "a_5efe89f197994d1caa4f278a234e6a92",
+              "a_74804090efac480885810b11c242f4fc",
+              "a_f233270fc5d04a31b22e6f3f8d961868",
+              "coord:ready_v1"
+            ],
+            "judgments": []
+          }
+        ],
+        "unresolved_candidates": [],
+        "rejected_candidates": [],
+        "complete": true,
+        "pending_requests": [],
+        "metrics": {
+          "cache_hits": 0,
+          "memo_hits": 0,
+          "new_judgments": 0,
+          "backend_calls": 0,
+          "backend_requests": 0,
+          "model_latency_ms": 0,
+          "backend_wall_seconds": 0,
+          "symbolic_steps": 5033
+        },
+        "stopping_reasons": [],
+        "symbolic_error": null,
+        "coverage_warnings": [],
+        "answer": "1 supported answer(s); 0 unresolved candidate(s).",
+        "coverage_scope": "Declared entities and dependency edges in the active snapshot; eligibility is not authorization or capacity."
+      }
+    },
+    {
+      "label": "baseline becomes structurally ready",
+      "result": {
+        "rows": [
+          {
+            "bindings": {},
+            "needs": [],
+            "reasons": [],
+            "status": "supported",
+            "support": [
+              "a_18e0980ccade4fce869bc7a329df65cd",
+              "a_23f9e3e8bcfe4bc9a16e870e501ba276",
+              "a_39368d01bd094621bdfefecc45d79bac",
+              "a_67635e4b256a419c934df4dd91589693",
+              "a_c04cfc27e33c4e7eaecc6b426f5380a2",
+              "a_c74e8debdee0459aa852ed8ae85b03d7",
+              "a_d5ef919b55ae4ea9bd144c56b071d085",
+              "coord:ready_v1"
+            ],
+            "judgments": []
+          }
+        ],
+        "unresolved_candidates": [],
+        "rejected_candidates": [],
+        "complete": true,
+        "pending_requests": [],
+        "metrics": {
+          "cache_hits": 0,
+          "memo_hits": 0,
+          "new_judgments": 0,
+          "backend_calls": 0,
+          "backend_requests": 0,
+          "model_latency_ms": 0,
+          "backend_wall_seconds": 0,
+          "symbolic_steps": 5101
+        },
+        "stopping_reasons": [],
+        "symbolic_error": null,
+        "coverage_warnings": [],
+        "answer": "1 supported answer(s); 0 unresolved candidate(s).",
+        "coverage_scope": "Declared entities and dependency edges in the active snapshot; eligibility is not authorization or capacity."
+      }
+    },
+    {
+      "label": "semantic cache survives restart",
+      "result": {
+        "rows": [],
+        "unresolved_candidates": [
+          [
+            {
+              "bindings": {
+                "Who": "person:alice"
+              },
+              "needs": [
+                [
+                  "person:alice",
+                  "skill:python"
+                ]
+              ],
+              "reasons": [],
+              "status": "insufficient_evidence",
+              "support": [
+                "a_31fb9a182f024fd0a9ac6088bfff677c",
+                "a_5c42a98e2bc14344b98d92d6ca2e2a7e",
+                "a_74804090efac480885810b11c242f4fc",
+                "a_934754b0e50e442592a382f3930acf5e",
+                "coord:candidate_all_skills_v1"
+              ],
+              "judgments": [
+                {
+                  "id": "j_823dc3e806c6420c8ae943d6ec0975cd",
+                  "status": "backend_error",
+                  "origin": "backend_error",
+                  "raw_id": null,
+                  "definition_id": "d_fbbd6325229ad19dfafdf6743626d75dec18293cdc7f27d76a4a8273e1e2b5da",
+                  "arguments": [
+                    "person:alice",
+                    "skill:python"
+                  ],
+                  "evidence": [
+                    {
+                      "id": "a_19affd0354d94cc7b57cfd90974e43d6",
+                      "profile": "profile:alice",
+                      "source": "Alice built Python pipelines for cleaning, joining, and validating research datasets.",
+                      "hash": "529044454b7b7091e8e6c887dceeed9865d69fb01b810e632210940718fff18a"
+                    }
+                  ],
+                  "policy": {
+                    "margin": 0.2,
+                    "threshold": 0.85,
+                    "version": "provisional-v1"
+                  },
+                  "error": "<urlopen error [Errno 1] Operation not permitted>"
+                }
+              ]
+            }
+          ],
+          [
+            {
+              "bindings": {
+                "Who": "person:carol"
+              },
+              "needs": [
+                [
+                  "person:carol",
+                  "skill:python"
+                ]
+              ],
+              "reasons": [],
+              "status": "insufficient_evidence",
+              "support": [
+                "a_31fb9a182f024fd0a9ac6088bfff677c",
+                "a_5c42a98e2bc14344b98d92d6ca2e2a7e",
+                "a_74804090efac480885810b11c242f4fc",
+                "a_f151aecd3f35487f86b08a769f16c2cf",
+                "coord:candidate_all_skills_v1"
+              ],
+              "judgments": [
+                {
+                  "id": "j_3370fa15c18743bbb31dcad48b6c5c66",
+                  "status": "backend_error",
+                  "origin": "backend_error",
+                  "raw_id": null,
+                  "definition_id": "d_fbbd6325229ad19dfafdf6743626d75dec18293cdc7f27d76a4a8273e1e2b5da",
+                  "arguments": [
+                    "person:carol",
+                    "skill:python"
+                  ],
+                  "evidence": [
+                    {
+                      "id": "a_dda75b4a05bb4cce8747a0aa068fff7c",
+                      "profile": "profile:carol",
+                      "source": "Carol is interested in research and enjoys helping teams.",
+                      "hash": "43f68b187cae05299c39e517cc8f0cc8bbadf5501bb5be4a27aca8d88669ae21"
+                    }
+                  ],
+                  "policy": {
+                    "margin": 0.2,
+                    "threshold": 0.85,
+                    "version": "provisional-v1"
+                  },
+                  "error": "<urlopen error [Errno 1] Operation not permitted>"
+                }
+              ]
+            }
+          ]
+        ],
+        "rejected_candidates": [
+          [
+            {
+              "bindings": {
+                "Who": "person:bob"
+              },
+              "needs": [],
+              "reasons": [
+                "unavailable"
+              ],
+              "status": "contradicted",
+              "support": [
+                "a_74804090efac480885810b11c242f4fc",
+                "a_c863611a970a4d5fad31356acb40a6cf",
+                "coord:candidate_all_skills_v1"
+              ],
+              "judgments": []
+            }
+          ]
+        ],
+        "complete": false,
+        "pending_requests": [],
+        "metrics": {
+          "cache_hits": 0,
+          "memo_hits": 0,
+          "new_judgments": 2,
+          "backend_calls": 2,
+          "backend_requests": 2,
+          "model_latency_ms": 0,
+          "backend_wall_seconds": 0.002184416982345283,
+          "symbolic_steps": 5267
+        },
+        "stopping_reasons": [
+          "backend_error"
+        ],
+        "symbolic_error": null,
+        "coverage_warnings": [],
+        "answer": "0 supported answer(s); 2 unresolved candidate(s).",
+        "coverage_scope": "Declared entities and dependency edges in the active snapshot; eligibility is not authorization or capacity."
+      }
+    },
+    {
+      "label": "first supported candidate",
+      "result": {
+        "rows": [],
+        "unresolved_candidates": [
+          [
+            {
+              "bindings": {
+                "Who": "person:alice"
+              },
+              "needs": [
+                [
+                  "person:alice",
+                  "skill:python"
+                ]
+              ],
+              "reasons": [],
+              "status": "insufficient_evidence",
+              "support": [
+                "a_31fb9a182f024fd0a9ac6088bfff677c",
+                "a_5c42a98e2bc14344b98d92d6ca2e2a7e",
+                "a_74804090efac480885810b11c242f4fc",
+                "a_934754b0e50e442592a382f3930acf5e",
+                "coord:candidate_all_skills_v1"
+              ],
+              "judgments": [
+                {
+                  "id": "j_8e4dfe97914547809af7c58ac0d9e1ce",
+                  "status": "backend_error",
+                  "origin": "backend_error",
+                  "raw_id": null,
+                  "definition_id": "d_fbbd6325229ad19dfafdf6743626d75dec18293cdc7f27d76a4a8273e1e2b5da",
+                  "arguments": [
+                    "person:alice",
+                    "skill:python"
+                  ],
+                  "evidence": [
+                    {
+                      "id": "a_19affd0354d94cc7b57cfd90974e43d6",
+                      "profile": "profile:alice",
+                      "source": "Alice built Python pipelines for cleaning, joining, and validating research datasets.",
+                      "hash": "529044454b7b7091e8e6c887dceeed9865d69fb01b810e632210940718fff18a"
+                    }
+                  ],
+                  "policy": {
+                    "margin": 0.2,
+                    "threshold": 0.85,
+                    "version": "provisional-v1"
+                  },
+                  "error": "<urlopen error [Errno 1] Operation not permitted>"
+                }
+              ]
+            }
+          ],
+          [
+            {
+              "bindings": {
+                "Who": "person:carol"
+              },
+              "needs": [
+                [
+                  "person:carol",
+                  "skill:python"
+                ]
+              ],
+              "reasons": [],
+              "status": "insufficient_evidence",
+              "support": [
+                "a_31fb9a182f024fd0a9ac6088bfff677c",
+                "a_5c42a98e2bc14344b98d92d6ca2e2a7e",
+                "a_74804090efac480885810b11c242f4fc",
+                "a_f151aecd3f35487f86b08a769f16c2cf",
+                "coord:candidate_all_skills_v1"
+              ],
+              "judgments": [
+                {
+                  "id": "j_c5eaf78c82f34570bd2d39c2b19a97bc",
+                  "status": "backend_error",
+                  "origin": "backend_error",
+                  "raw_id": null,
+                  "definition_id": "d_fbbd6325229ad19dfafdf6743626d75dec18293cdc7f27d76a4a8273e1e2b5da",
+                  "arguments": [
+                    "person:carol",
+                    "skill:python"
+                  ],
+                  "evidence": [
+                    {
+                      "id": "a_dda75b4a05bb4cce8747a0aa068fff7c",
+                      "profile": "profile:carol",
+                      "source": "Carol is interested in research and enjoys helping teams.",
+                      "hash": "43f68b187cae05299c39e517cc8f0cc8bbadf5501bb5be4a27aca8d88669ae21"
+                    }
+                  ],
+                  "policy": {
+                    "margin": 0.2,
+                    "threshold": 0.85,
+                    "version": "provisional-v1"
+                  },
+                  "error": "<urlopen error [Errno 1] Operation not permitted>"
+                }
+              ]
+            }
+          ]
+        ],
+        "rejected_candidates": [
+          [
+            {
+              "bindings": {
+                "Who": "person:bob"
+              },
+              "needs": [],
+              "reasons": [
+                "unavailable"
+              ],
+              "status": "contradicted",
+              "support": [
+                "a_74804090efac480885810b11c242f4fc",
+                "a_c863611a970a4d5fad31356acb40a6cf",
+                "coord:candidate_all_skills_v1"
+              ],
+              "judgments": []
+            }
+          ]
+        ],
+        "complete": false,
+        "pending_requests": [],
+        "metrics": {
+          "cache_hits": 0,
+          "memo_hits": 0,
+          "new_judgments": 2,
+          "backend_calls": 2,
+          "backend_requests": 2,
+          "model_latency_ms": 0,
+          "backend_wall_seconds": 0.0004586249706335366,
+          "symbolic_steps": 5267
+        },
+        "stopping_reasons": [
+          "backend_error"
+        ],
+        "symbolic_error": null,
+        "coverage_warnings": [],
+        "answer": "0 supported answer(s); 2 unresolved candidate(s).",
+        "coverage_scope": "Declared entities and dependency edges in the active snapshot; eligibility is not authorization or capacity."
+      }
+    },
+    {
+      "label": "new validation skill with zero judgment budget",
+      "result": {
+        "rows": [],
+        "unresolved_candidates": [
+          [
+            {
+              "bindings": {},
+              "needs": [
+                [
+                  "person:alice",
+                  "skill:statistical_validation"
+                ]
+              ],
+              "reasons": [],
+              "status": "insufficient_evidence",
+              "support": [
+                "a_1b22a52ea7b640499d7ebb567f88bd84",
+                "a_28d526576ab44275999e66123f9871de",
+                "a_934754b0e50e442592a382f3930acf5e",
+                "a_f9d5e6f8ecb74ee592d2fa570bbe5ebe",
+                "coord:candidate_all_skills_v1"
+              ],
+              "judgments": [
+                {
+                  "id": "j_42f46e090eeb4325b3462e96611eaf01",
+                  "status": "not_evaluated_budget",
+                  "origin": "budget",
+                  "raw_id": null,
+                  "definition_id": "d_fbbd6325229ad19dfafdf6743626d75dec18293cdc7f27d76a4a8273e1e2b5da",
+                  "arguments": [
+                    "person:alice",
+                    "skill:statistical_validation"
+                  ],
+                  "evidence": [
+                    {
+                      "id": "a_19affd0354d94cc7b57cfd90974e43d6",
+                      "profile": "profile:alice",
+                      "source": "Alice built Python pipelines for cleaning, joining, and validating research datasets.",
+                      "hash": "529044454b7b7091e8e6c887dceeed9865d69fb01b810e632210940718fff18a"
+                    }
+                  ],
+                  "policy": {
+                    "margin": 0.2,
+                    "threshold": 0.85,
+                    "version": "provisional-v1"
+                  }
+                }
+              ]
+            }
+          ]
+        ],
+        "rejected_candidates": [],
+        "complete": false,
+        "pending_requests": [
+          {
+            "id": "j_42f46e090eeb4325b3462e96611eaf01",
+            "status": "not_evaluated_budget",
+            "origin": "budget",
+            "raw_id": null,
+            "definition_id": "d_fbbd6325229ad19dfafdf6743626d75dec18293cdc7f27d76a4a8273e1e2b5da",
+            "arguments": [
+              "person:alice",
+              "skill:statistical_validation"
+            ],
+            "evidence": [
+              {
+                "id": "a_19affd0354d94cc7b57cfd90974e43d6",
+                "profile": "profile:alice",
+                "source": "Alice built Python pipelines for cleaning, joining, and validating research datasets.",
+                "hash": "529044454b7b7091e8e6c887dceeed9865d69fb01b810e632210940718fff18a"
+              }
+            ],
+            "policy": {
+              "margin": 0.2,
+              "threshold": 0.85,
+              "version": "provisional-v1"
+            }
+          }
+        ],
+        "metrics": {
+          "cache_hits": 0,
+          "memo_hits": 0,
+          "new_judgments": 0,
+          "backend_calls": 0,
+          "backend_requests": 0,
+          "model_latency_ms": 0,
+          "backend_wall_seconds": 0,
+          "symbolic_steps": 5013
+        },
+        "stopping_reasons": [
+          "judgment_budget"
+        ],
+        "symbolic_error": null,
+        "coverage_warnings": [],
+        "answer": "0 supported answer(s); 1 unresolved candidate(s).",
+        "coverage_scope": "Declared entities and dependency edges in the active snapshot; eligibility is not authorization or capacity."
+      }
+    }
+  ],
+  "status": "real_backend_unavailable_or_failed"
+}
