@@ -13,6 +13,20 @@ from examples.admin_fixture import REQUEST,TEXTS,extraction,backend
 
 @unittest.skipUnless(shutil.which('swipl'),'SWI-Prolog required')
 class AdminTests(unittest.TestCase):
+    def test_live_runner_validates_extractions_without_repairing_them(self):
+        from examples.admin_live_test import validate_extraction, TestFailure
+        for label in ('original','ack','claim','wrong','correct'):
+            result={'incorporated':True,'extraction':extraction(label)}
+            validate_extraction(label,result)
+        bad=extraction('wrong');bad['expected']=bad['observed'][:]
+        with self.assertRaises(TestFailure):
+            validate_extraction('wrong',{'incorporated':True,'extraction':bad})
+        with self.assertRaises(TestFailure):
+            validate_extraction('ack',{'incorporated':False,'extraction':{'explanation':'Needs review'}})
+        wrong_basis=extraction('original')
+        next(d for d in wrong_basis['dates'] if d['role']=='intervention')['basis']='documented'
+        with self.assertRaisesRegex(TestFailure,'original.dates: expected .*user_preference.*got .*documented'):
+            validate_extraction('original',{'incorporated':True,'extraction':wrong_basis})
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.path=Path(self.tmp.name)/'kb.sqlite3';self.store=Store(self.path)
         admin.install(self.store);admin.template_register(self.store,json.loads(Path('config/appointment.json').read_text()))
@@ -91,11 +105,15 @@ class AdminTests(unittest.TestCase):
         _,row=self.check('2026-10-20')
         self.assertEqual(row['latest_evidence']['id'],result['source_id'])
         self.assertTrue(row['progress_assessments']['acknowledged'])
-        for role,value in [('follow_up',''),('submission','unknown'),('lead_days','2026-10-13')]:
+        for role,value in [('follow_up',''),('submission','unknown')]:
             bad=empty(REQUEST);bad['dates']=[{'role':role,'value':value,'basis':'documented'}]
             with self.assertRaises(Invalid):check_schema(bad,extraction_schema())
         good=empty(REQUEST);good['dates']=[{'role':'lead_days','value':'7','basis':'user_preference'}]
         check_schema(good,extraction_schema())
+        template=json.loads(Path('config/appointment.json').read_text())
+        for role,value in [('lead_days','2026-10-13'),('submission','7'),('submission','2026-02-31')]:
+            bad=empty(REQUEST);bad['dates']=[{'role':role,'value':value,'basis':'documented'}]
+            with self.assertRaises(Invalid):admin.extracted_events(bad,template)
     def test_input_format_change_invalidates_cache_but_preserves_old_judgments(self):
         from kb.semantic import definition,register
         self.ingest('ack','2026-10-13')
@@ -150,6 +168,11 @@ class AdminTests(unittest.TestCase):
         accepted=admin.ingest(self.store,TEXTS['wrong'],'2026-10-22',kind='confirmation',request=REQUEST,translator=translator)
         self.assertTrue(accepted['incorporated'])
         self.assertEqual(translator.request.call_args.args[1]['format']['properties']['expected']['maxItems'],0)
+        examples=[json.loads(m['content']) for m in translator.request.call_args.args[1]['messages'] if m['role']=='assistant']
+        confirmation=next(e for e in examples if e['documents']==['appointment_confirmation'])
+        self.assertEqual(confirmation['dates'],[])
+        self.assertEqual(confirmation['expected'],[])
+        self.assertEqual(confirmation['observed'][0]['value'],'Morgan Sample')
         _,row=self.check()
         mismatch=next(d for d in row['discrepancies'] if d.get('field')=='funding_account')
         self.assertEqual(mismatch['observed'],'FUND-B')
@@ -171,6 +194,24 @@ class AdminTests(unittest.TestCase):
         self.assertEqual(row['verification'],'verified_documentary')
         self.assertEqual(row['desired_outcome'],extraction('original')['desired_outcome'])
         self.assertFalse(row['discrepancies'])
+    def test_rejected_date_proposal_retained_without_superseding_evidence(self):
+        from unittest.mock import Mock
+        wrong=self.ingest('wrong','2026-10-22',kind='confirmation')
+        bad=extraction('correct')
+        bad['dates']=[{'role':'follow_up','value':'','basis':'documented'}]
+        translator=Mock(model='test-model')
+        translator.request.return_value={'message':{'content':json.dumps(bad)}}
+        out=admin.ingest(self.store,TEXTS['correct'],'2026-10-26',kind='confirmation',request=REQUEST,
+                         supersedes=wrong['source_id'],translator=translator)
+        self.assertFalse(out['incorporated'])
+        self.assertEqual(out['extraction']['rejected_proposal'],bad)
+        saved=json.loads(self.store.db.execute('SELECT extraction FROM admin_messages WHERE id=?',
+                                              (out['source_id'],)).fetchone()[0])
+        self.assertEqual(saved['rejected_proposal'],bad)
+        self.assertIsNone(self.store.db.execute('SELECT superseded_at FROM admin_messages WHERE id=?',
+                                               (wrong['source_id'],)).fetchone()[0])
+        self.assertEqual(self.store.db.execute('SELECT count(*) FROM admin_events WHERE source_id=?',
+                                              (out['source_id'],)).fetchone()[0],0)
     def test_conflicting_evidence_does_not_use_newest(self):
         self.ingest('wrong','2026-10-22',kind='confirmation');self.ingest('correct','2026-10-23',kind='confirmation')
         _,row=self.check();self.assertEqual(row['verification'],'discrepant')

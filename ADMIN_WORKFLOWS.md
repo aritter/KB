@@ -250,3 +250,24 @@ When an explicit request/template is selected, Ollama now receives a template-sp
 Confirmation ingestion constrains `expected` to an empty array. A confirmation reports observed outcomes, not a revision to the request. To revise expectations intentionally, use an explicit `admin set expected:FIELD ... --supersedes ...` correction. Reviewed confirmation JSON is subject to the same no-expectations rule.
 
 Confirmation ingestion also requires `desired_outcome` to be empty: document summaries must not become new requested outcomes. This restriction is enforced in decoding, reviewed ingestion, and reassociation. Explicit request corrections remain available through `admin set`.
+
+## Fresh unattended full-live test
+
+With Ollama and Kev running, execute from the repository root:
+
+```bash
+python3 -m examples.admin_live_test
+```
+
+This creates a new database and saves all command outputs under a unique
+`evaluation/live-TIMESTAMP/` directory. Every ingestion uses real Ollama; every
+uncached semantic judgment uses real Kev. Reviewed fixtures are comparison targets
+only and are never substituted for model output. The runner checks extraction,
+acknowledgment, claim-versus-verification, FUND-B mismatch, intervention, corrected
+verification, and fresh-process cache reuse. It stops on failure without repairing
+accepted records, saves the failure stage, and exits nonzero. Success prints
+`LIVE TEST PASSED`. This differs from the older reviewed-extraction demo, whose
+real-backend mode only records observations.
+
+Options include `--model`, `--definition`, `--seconds`, and `--output-dir`. The
+helper itself is tested, but a successful full-live run remains pending.

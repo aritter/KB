@@ -64,6 +64,8 @@ def install(store):
     CREATE TABLE IF NOT EXISTS admin_events(id TEXT PRIMARY KEY,request_id TEXT NOT NULL,type TEXT NOT NULL,
       payload TEXT NOT NULL,source_id TEXT NOT NULL,valid_from TEXT NOT NULL,retracted_at TEXT,supersedes TEXT);
     ''')
+    from .incremental import install as install_incremental
+    install_incremental(store)
 
 
 def template_register(store,doc):
@@ -151,6 +153,12 @@ def ingest(store,text,at,kind='message',request=None,new=False,template=None,ext
     install(store)
     if not text.strip() or len(text.encode())>50000:raise Invalid('Message must contain 1–50000 UTF-8 bytes; no silent truncation')
     timestamp=utc(at,zone)
+    from .incremental import import_key, duplicate, record_source, EXTRACTION_VERSION
+    key=import_key(text,timestamp,request,kind,supersedes)
+    known=duplicate(store,key)
+    if known:return known
+    extraction_started=time.monotonic()
+    extraction_model=getattr(translator,'model','reviewed') if extraction is None else 'reviewed'
     if kind not in {'message','confirmation','user_note'}:raise Invalid('Invalid evidence kind')
     if request and not re.fullmatch(r'request:[a-z0-9_-]+',request):raise Invalid('Use a canonical request:identifier')
     if new:
@@ -202,7 +210,12 @@ def ingest(store,text,at,kind='message',request=None,new=False,template=None,ext
     source=ident('m_')
     with store.db:
         store.db.execute('BEGIN IMMEDIATE')
+        known=duplicate(store,key)
+        if known:return known
         store.db.execute('INSERT INTO admin_messages VALUES(?,?,?,?,?,?,?,?)',(source,text,timestamp,now(),kind,encoded(extraction),None,None))
+        record_source(store,source,text,supersedes)
+        store.db.execute('INSERT INTO extraction_runs VALUES(?,?,?,?,?,?,?,?)',
+                         (ident('extract_'),source,extraction_model,EXTRACTION_VERSION,'admin-schema-v3',time.monotonic()-extraction_started,encoded(extraction),now()))
         if extraction['status']=='ok':
             if supersedes:
                 old=store.db.execute('SELECT * FROM admin_messages WHERE id=?',(supersedes,)).fetchone()
@@ -213,7 +226,10 @@ def ingest(store,text,at,kind='message',request=None,new=False,template=None,ext
             if new:event(store,request,'request',{'template_id':template_id},source,timestamp)
             event(store,request,'association',{'message_id':source},source,timestamp)
             for typ,payload in items:event(store,request,typ,payload,source,timestamp)
-    return {'source_id':source,'request_id':request,'extraction':extraction,'incorporated':extraction['status']=='ok'}
+        result={'source_id':source,'request_id':request,'extraction':extraction,'incorporated':extraction['status']=='ok','duplicate':False}
+        # Rejected inputs remain retryable after clarification; accepted imports are idempotent.
+        if result['incorporated']:store.db.execute('INSERT INTO import_keys VALUES(?,?,?)',(key,source,encoded(result)))
+    return result
 
 
 def extract_message(translator,text,candidates,request,*,new=False,kind='message'):
@@ -238,27 +254,47 @@ Submission, deadline, follow_up, intervention and lead_days belong ONLY in dates
 Extract a named responsible party or office from the source into responsible; do not replace it with a template identifier.
 Acknowledgments, promises and completion claims are NOT observed values or verification. Leave fields absent if not stated.
 Only identify a confirmation document when it actually documents the outcome. An 'all set' message is not a document.
+A text explicitly headed "Appointment confirmation" or "Corrected appointment confirmation" that lists appointment details is an appointment_confirmation document when that document type is declared by the template. Its appointment start/end dates belong in observed, not dates. The word "Corrected" does not remove its document status or imply a submission date.
 absent_documents lists only documents explicitly stated to be absent. A document not mentioned or not attached in the available text is NOT known absent; use [].
 dependencies lists only explicitly stated dependencies on other requests, using known request:identifiers. Do not put template steps, document names, or the current request there. If no request dependency is stated, use [].
 Distinguish documented date requirements, explicit user preferences, and tentative estimates. Do not derive institutional lead times.
-A source saying "Submitted January 8, 2027" reports a submission date with basis documented; "My follow-up date is January 15, 2027" is a user_preference. Documented means stated in the source, not independently verified.
+The date basis describes its authority, not whether the text is written down. Explicit personal choices ("my follow-up date", "my intervention date", "I want to check on...") are user_preference, even with exact dates. Tentative estimates are tentative. Use documented for reported events such as submission and explicitly stated external requirements. Never upgrade a personal preference to documented just because it appears in a message. Apply this distinction separately to every date.
+A source saying "Submitted January 8, 2027" reports a submission date with basis documented. "My follow-up date is January 15, 2027 and my intervention date is January 20, 2027" gives TWO user_preference dates: follow_up 2027-01-15 and intervention 2027-01-20. Neither is an institutional requirement. Documented submission records what the source reports, not independent verification.
 desired_outcome is a short description of what is requested, not a template name.
 If status is not ok, leave all arrays and descriptive fields empty and explain. Preserve account IDs exactly, including case.
 Example: for an explicitly identified new request, "Please appoint Morgan from February 1 through March 31, 2027, using FUND-X. Submitted January 8, 2027. My follow-up date is January 15, 2027", return status ok; expected person Morgan, start_date 2027-02-01, end_date 2027-03-31, funding_account FUND-X; submission 2027-01-08/documented and follow_up 2027-01-15/user_preference. observed, documents, absent_documents and dependencies are all empty arrays. Do not require completion evidence.
 Example: an explicitly associated "Received, we'll take care of it" or "All set" message is status ok with empty field/date/document/dependency arrays. Semantic interpretation happens later.
 '''
     from .admin_schema import empty
+    confirmation_example=empty('request:example')
+    confirmation_example['observed']=[{'name':key,'value':value} for key,value in
+        [('person','Morgan Sample'),('start_date','2027-02-01'),('end_date','2027-03-31'),('funding_account','FUND-X')]]
+    confirmation_example['documents']=['appointment_confirmation']
+    # Include this domain example only when compatible with the selected vocabulary.
+    example_messages=[]
+    if selected and {'person','start_date','end_date','funding_account'} <= set(selected['fields']) and 'appointment_confirmation' in selected['required_documents']:
+        example_messages=[
+            {'role':'user','content':encoded({'source':'Corrected appointment confirmation: Morgan Sample, 2027-02-01 through 2027-03-31, funding account FUND-X.',
+                'explicit_request_id':'request:example','operation':'append_message','source_kind':'confirmation'})},
+            {'role':'assistant','content':encoded(confirmation_example)}]
     response=translator.request('/api/chat',{'model':translator.model,'messages':[{'role':'system','content':system},
         {'role':'user','content':encoded({'source':'Received, we will take care of it.',
             'explicit_request_id':'request:example','operation':'append_message','source_kind':'message'})},
         {'role':'assistant','content':encoded(empty('request:example'))},
+        *example_messages,
         {'role':'user','content':encoded({'source':text,'explicit_request_id':request,'candidates':candidates,
             'operation':'new_request' if new else 'append_message','source_kind':kind})}],
         'format':schema,'stream':False,'think':False,'options':{'temperature':0,'num_ctx':8192,'num_predict':2048}})
     if response.get('done_reason')=='length':raise Invalid('Extraction token limit exceeded; no events accepted')
     try:result=json.loads(response['message']['content'])
     except (KeyError,ValueError) as exc:raise Invalid('Administrative extraction is not JSON') from exc
-    check_schema(result,schema)
+    try:
+        check_schema(result,schema)
+    except Invalid as exc:
+        # Keep the rejected model proposal for diagnosis, but never turn any of
+        # its fields into executable events or supersede accepted evidence.
+        return {'status':'clarify', 'explanation':'Extraction schema rejected: '+str(exc),
+                'rejected_proposal':result}
     return result
 
 
@@ -284,7 +320,7 @@ def manual_event(store,request,field,value,source,at,supersedes=None,zone='Ameri
         typ,key=field.split(':',1)
         if key not in tpl['fields']:raise Invalid('Unknown template field')
         normalize(value,tpl['fields'][key]);payload={'name':key,'value':value}
-    elif field in {'deadline','follow_up','intervention','lead_days'}:
+    elif field in {'deadline','follow_up','intervention','lead_days','promised_for'}:
         typ='date';payload={'role':field,'value':value,'basis':basis}
         extracted_events(dict(expected=[],observed=[],dates=[payload],documents=[],absent_documents=[],dependencies=[],desired_outcome='',responsible=''),tpl)
     elif field=='affects_resource':
@@ -298,7 +334,7 @@ def manual_event(store,request,field,value,source,at,supersedes=None,zone='Ameri
     elif field=='confirm':
         if value!='true':raise Invalid('Use confirm true; retract its event to withdraw confirmation')
         typ='user_confirmed';payload={'value':True}
-    elif field in {'desired_outcome','responsible'}:typ=field;payload={'value':value}
+    elif field in {'desired_outcome','responsible','owner'}:typ=field;payload={'value':value}
     else:raise Invalid('Unsupported manual field')
     old=next((x for x in events if x['id']==supersedes),None) if supersedes else None
     if supersedes and not old:raise Invalid('Superseded event must be active on this request')
@@ -344,17 +380,17 @@ def associate(store,message,request,source,at,zone='America/New_York'):
     return {'message_id':message,'request_id':request,'source_id':note}
 
 
-def report(store,as_of,zone='America/New_York',budget=None,backend_factory=None,executable='swipl'):
+def report(store,as_of,zone='America/New_York',budget=None,backend_factory=None,executable='swipl',
+           request_ids=None,cached_rows=None,force_models=False,snapshot_data=None):
     install(store);clock=moment(as_of,zone);cutoff=clock.astimezone(timezone.utc).isoformat()
     budget=budget or Budget();gateways={};rows=[]
     symbolic_reserve=min(2.0,budget.seconds/2)
     budget.seconds-=symbolic_reserve
     # One immutable input snapshot for a check. Judgment writes use the same DB afterwards.
-    with store.db:
-        store.db.execute('BEGIN')
-        all_events=[dict(r,payload=json.loads(r['payload'])) for r in store.db.execute('SELECT * FROM admin_events WHERE valid_from<=? AND (retracted_at IS NULL OR retracted_at>?)',(cutoff,cutoff))]
-        messages={r['id']:dict(r) for r in store.db.execute('SELECT * FROM admin_messages WHERE received_at<=?',(cutoff,))}
+    from .incremental import snapshot
+    all_events,messages=snapshot_data if snapshot_data is not None else snapshot(store,cutoff)
     roots={e['request_id']:e for e in all_events if e['type']=='request'}
+    if request_ids is not None:roots={r:root for r,root in roots.items() if r in request_ids}
     evidence_map={}
     def resolver(message,subject):
         return evidence_map[(message,subject)],[]
@@ -363,12 +399,19 @@ def report(store,as_of,zone='America/New_York',budget=None,backend_factory=None,
             from .semantic import definition
             _,spec=definition(store,name)
             backend=backend_factory(spec['backend']) if backend_factory else None
-            gateways[name]=Gateway(store,[],budget,backend,predicate=name,resolver=resolver,as_of=cutoff)
+            gateways[name]=Gateway(store,[],budget,backend,predicate=name,resolver=resolver,as_of=cutoff,force_models=force_models)
         gateway=gateways[name]
         key=(message,subject)
         known=gateway.lookup(key)
         return known if known else gateway.resolve([key])[key]
     for request,root in roots.items():
+        if cached_rows and request in cached_rows:
+            from copy import deepcopy
+            cached=deepcopy(cached_rows[request])
+            if cached['latest_evidence_at']:
+                cached['latest_evidence_age_days']=(clock.timestamp()-datetime.fromisoformat(cached['latest_evidence_at']).timestamp())/86400
+            rows.append(cached)
+            continue
         events=[e for e in all_events if e['request_id']==request]
         _,tpl=load_template(store,root['payload']['template_id'])
         discrepancies=[];missing=[];known_absent=[];judgments=[]
@@ -378,7 +421,7 @@ def report(store,as_of,zone='America/New_York',budget=None,backend_factory=None,
             found=collect(kind);vals={e['payload']['value'] for e in found}
             if len(vals)>1:discrepancies.append({'type':'conflicting_'+kind,'values':sorted(vals),'support':[e['id'] for e in found]})
             return next(iter(vals)) if len(vals)==1 else default
-        desired=one_value('desired_outcome');responsible=one_value('responsible','Not specified')
+        desired=one_value('desired_outcome');responsible=one_value('responsible','Not specified');owner=one_value('owner','Not specified')
         expected={};expected_support=[]
         for name,kind in tpl['fields'].items():
             fields=collect('expected',name);vals={normalize(e['payload']['value'],kind) for e in fields}
@@ -448,7 +491,7 @@ def report(store,as_of,zone='America/New_York',budget=None,backend_factory=None,
             elif absent:known_absent.append({'document':document,'support':[e['id'] for e in absent]})
             elif not present:missing.append(document+' not observed in available record (not established absent)')
         date_info={}
-        for role in ('submission','deadline','follow_up','intervention','lead_days'):
+        for role in ('submission','deadline','follow_up','intervention','lead_days','promised_for'):
             found=[e for e in collect('date') if e['payload']['role']==role]
             authoritative=[e for e in found if e['payload']['basis']!='tentative']
             values={e['payload']['value'] for e in authoritative}
@@ -487,7 +530,7 @@ def report(store,as_of,zone='America/New_York',budget=None,backend_factory=None,
                     task,resource=[t['const'] for t in head['args']]
                     for link in resource_links:
                         if link['payload']['value']==resource:affected_tasks.append({'task':task,'resource':resource,'support':[link['id'],assertion_record['id']]})
-        rows.append({'request_id':request, 'affected_research_tasks':affected_tasks,'desired_outcome':desired,'responsible':responsible,'template_id':root['payload']['template_id'],
+        rows.append({'request_id':request, 'affected_research_tasks':affected_tasks,'desired_outcome':desired,'responsible':responsible,'owner':owner,'template_id':root['payload']['template_id'],
             'dates':date_info,'snoozed_until':snooze,'latest_evidence_at':latest,'latest_evidence_age_days':age,
             'latest_evidence':next(({'id':m['id'],'text':m['text']} for m in active_messages if m['received_at']==latest),None),
             'progress':progress,'progress_assessments':statuses,'verification':verification,'documentary_proofs':complete_evidence,
@@ -512,7 +555,11 @@ def report(store,as_of,zone='America/New_York',budget=None,backend_factory=None,
         for dep in row['dependencies']:walk(dep,[row['request_id']])
         row['unresolved_dependencies']=pending
     budget.seconds+=symbolic_reserve
-    flags=symbolic_flags(rows,clock,budget,executable)
+    try:flags=symbolic_flags(rows,clock,budget,executable)
+    except (Invalid,subprocess.TimeoutExpired) as exc:
+        if not snapshot_data:raise
+        budget.stopping.add('symbolic_budget_or_error')
+        flags=[{'request_id':row['request_id'],'priority':0,'reason':'checks_incomplete','rule':'admin:incomplete_v1'} for row in rows]
     for row in rows:
         row['flags']=[{**f,'support':row['support']+[j['id'] for j in row['judgments'] if 'id' in j and j['status'] in {'supported','conflict'}]} for f in flags if f['request_id']==row['request_id']]
         row['priority']=min((f['priority'] for f in row['flags']),default=99)
@@ -539,7 +586,7 @@ def report(store,as_of,zone='America/New_York',budget=None,backend_factory=None,
 
 def symbolic_flags(rows,clock,budget,executable):
     source=[(Path(__file__).parent/'domains/admin.pl').read_text(),':- use_module(library(http/json)).',
-            ':- use_module(library(time)).',':- dynamic wf/10, claim/1, unresolved_dependency/1, info_requested/1.']
+            ':- use_module(library(time)).',':- dynamic wf/10, claim/1, unresolved_dependency/1, info_requested/1, promised_for/2.']
     def day(value):return date.fromisoformat(value).toordinal() if value else 0
     for row in rows:
         rid=quote(row['request_id']);d=row['dates']
@@ -547,6 +594,7 @@ def symbolic_flags(rows,clock,budget,executable):
         if row['progress']=='claimed_complete':source.append(f'claim({rid}).')
         if row['progress_assessments']['additional_information_requested']:source.append(f'info_requested({rid}).')
         if row['unresolved_dependencies']:source.append(f'unresolved_dependency({rid}).')
+        if d.get('promised_for',{}).get('value'):source.append(f"promised_for({rid},{day(d['promised_for']['value'])}).")
     # Reserve part of the same wall budget for symbolic checks, so semantic work cannot consume it all.
     source.append(':- initialization((call_with_time_limit('+str(max(0.001,budget.remaining()))+',call_with_inference_limit(findall(_{request_id:R,priority:P,reason:F,rule:ID},flag(R,P,F,ID),Rows),'+str(budget.steps)+',Outcome)),(Outcome=inference_limit_exceeded->halt(2);true),json_write_dict(current_output,_{flags:Rows},[width(0)]),halt),main).')
     with tempfile.TemporaryDirectory() as tmp:

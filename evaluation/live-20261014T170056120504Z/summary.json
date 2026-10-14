@@ -1,0 +1,72 @@
+{
+  "model": "qwen3.5:9b-q4_K_M",
+  "backend": {
+    "kind": "kev",
+    "url": "http://127.0.0.1:8009",
+    "checkpoint": "jaredpalmer/kev-4b@v1.0",
+    "runtime_version": "kev-1.0",
+    "backend": "mlx",
+    "dtype": "bfloat16",
+    "temperature": 2.406050072164233
+  },
+  "steps": [
+    {
+      "step": "doctor",
+      "seconds": 0.07761929195839912,
+      "exit_code": 0
+    },
+    {
+      "step": "template",
+      "seconds": 0.056505207903683186,
+      "exit_code": 0
+    },
+    {
+      "step": "configure",
+      "seconds": 0.07591587502975017,
+      "exit_code": 0
+    },
+    {
+      "step": "ingest-original",
+      "seconds": 26.576167792081833,
+      "exit_code": 0
+    },
+    {
+      "step": "ingest-ack",
+      "seconds": 8.029884124989621,
+      "exit_code": 0
+    },
+    {
+      "step": "ack",
+      "seconds": 27.61509787500836,
+      "exit_code": 0
+    },
+    {
+      "step": "ingest-claim",
+      "seconds": 8.149605666985735,
+      "exit_code": 0
+    },
+    {
+      "step": "claim",
+      "seconds": 2.672564166947268,
+      "exit_code": 0
+    },
+    {
+      "step": "ingest-wrong",
+      "seconds": 17.679630583967082,
+      "exit_code": 0
+    },
+    {
+      "step": "wrong",
+      "seconds": 1.9319765410618857,
+      "exit_code": 0
+    },
+    {
+      "step": "ingest-correct",
+      "seconds": 19.83866370806936,
+      "exit_code": 0
+    }
+  ],
+  "status": "failed",
+  "failure_stage": "extraction",
+  "error": "Extraction not incorporated: Extraction unavailable or rejected: $.dates[0]: expected exactly one schema alternative"
+}

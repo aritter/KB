@@ -3,16 +3,13 @@ from copy import deepcopy
 from .schema import obj, array
 TEXT={'type':'string','maxLength':4000}
 FIELD=obj({'name':{'type':'string','maxLength':80},'value':TEXT})
-DATE=obj({'role':{'enum':['submission','deadline','follow_up','intervention','lead_days']},
+DATE=obj({'role':{'enum':['submission','deadline','follow_up','intervention','lead_days','promised_for']},
           'value':{'type':'string','maxLength':80},'basis':{'enum':['documented','user_preference','tentative']}})
-DECODE_DATE={'oneOf':[
-    obj({'role':{'enum':['submission','deadline','follow_up','intervention']},
-         'value':{'type':'string','pattern':r'\d{4}-\d{2}-\d{2}','maxLength':10},
-         'basis':{'enum':['documented','user_preference','tentative']}}),
-    obj({'role':{'const':'lead_days'},
-         'value':{'type':'string','pattern':r'\d{1,4}','maxLength':4},
-         'basis':{'enum':['documented','user_preference','tentative']}})
-]}
+# Keep the decoder shape simple; extracted_events validates calendar dates and
+# the role/value pairing (lead_days must be an integer, other roles ISO dates).
+DECODE_DATE=obj({'role':{'enum':['submission','deadline','follow_up','intervention','lead_days','promised_for']},
+                 'value':{'type':'string','pattern':r'(\d{4}-\d{2}-\d{2}|\d{1,4})','minLength':1,'maxLength':10},
+                 'basis':{'enum':['documented','user_preference','tentative']}})
 EXTRACTION=obj({
  'status':{'enum':['ok','clarify','unsupported']},'explanation':TEXT,
  'request_id':{'type':'string','maxLength':100},

@@ -10,3 +10,5 @@ flag(R,6,verification_outstanding,'admin:claim_unverified_v1') :- claim(R),wf(R,
 flag(R,2,unresolved_dependency,'admin:dependency_v1') :- unresolved_dependency(R).
 
 flag(R,3,information_requested,'admin:information_requested_v1') :- info_requested(R),wf(R,_,_,_,_,_,_,false,_,_).
+
+flag(R,2,promise_overdue,'admin:promise_overdue_v1') :- promised_for(R,D), wf(R,A,_,_,_,_,_,false,_,_), A>D.

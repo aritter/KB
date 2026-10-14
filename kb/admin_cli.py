@@ -19,6 +19,15 @@ def add_parser(sub):
     ingest.add_argument('--supersedes',help='Prior source message ID being explicitly replaced')
     check=commands.add_parser('check');check.add_argument('--as-of',required=True);check.add_argument('--timezone',default='America/New_York')
     check.add_argument('--judgments',type=int,default=32);check.add_argument('--requests',type=int,default=32);check.add_argument('--seconds',type=float,default=60)
+    refresh=commands.add_parser('refresh',help='Incremental workflow check with persisted conclusion and alert history')
+    refresh.add_argument('--as-of',required=True);refresh.add_argument('--timezone',default='America/New_York')
+    refresh.add_argument('--clock-only',action='store_true',help='No model calls; unresolved assessments remain explicit')
+    refresh.add_argument('--mode',choices=['incremental','full'],default='incremental')
+    refresh.add_argument('--request',action='append',dest='request_ids')
+    refresh.add_argument('--max-requests',type=int,default=100)
+    refresh.add_argument('--judgments',type=int,default=32);refresh.add_argument('--requests',type=int,default=40)
+    refresh.add_argument('--seconds',type=float,default=60)
+    history=commands.add_parser('history');history.add_argument('request')
     inspect=commands.add_parser('inspect');inspect.add_argument('request',nargs='?')
     change=commands.add_parser('set');change.add_argument('request');change.add_argument('field');change.add_argument('value')
     change.add_argument('--basis',choices=['documented','user_preference','tentative'],default='user_preference');change.add_argument('--supersedes')
@@ -41,6 +50,17 @@ def dispatch(store,args,translator):
     if cmd=='check':
         from .semantic import Budget
         return admin.report(store,args.as_of,args.timezone,Budget(judgments=args.judgments,requests=args.requests,seconds=args.seconds),executable=args.swipl)
+    if cmd=='refresh':
+        from .incremental import refresh
+        from .semantic import Budget
+        return refresh(store,args.as_of,zone=args.timezone,clock_only=args.clock_only,
+                       request_ids=args.request_ids,max_requests=args.max_requests,mode=args.mode,
+                       budget=Budget(judgments=args.judgments,requests=args.requests,seconds=args.seconds),
+                       executable=args.swipl)
+    if cmd=='history':
+        return {table:[dict(r) for r in store.db.execute(
+            'SELECT * FROM '+table+' WHERE request_id=? ORDER BY rowid',(args.request,))]
+                for table in ('conclusion_history','alert_history')}
     if cmd=='set':return admin.manual_event(store,args.request,args.field,args.value,args.source,args.at,args.supersedes,args.timezone,args.basis)
     if cmd=='associate':return admin.associate(store,args.message,args.request,args.source,args.at,args.timezone)
     if cmd=='override':

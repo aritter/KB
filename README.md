@@ -11,13 +11,13 @@ For the latest stopping point and one-command resume check, see [HANDOFF.md](HAN
 
 See [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md) for the current testing sequence and staged roadmap.
 
-Choose a fresh demo database. The deterministic demos explicitly use fixture outputs; user-run real Kev results are recorded in evaluation reports, while the complete live extraction-to-verification path remains unverified. See the linked guides for full setup, ingestion, corrections, dated reports, limits, and real-model smoke commands. **No background monitor is running.**
+Choose a fresh demo database. The deterministic demos explicitly use fixture outputs; user-run real Kev results are recorded in evaluation reports, and a fresh full-live administrative run passed on October 14 (see evaluation/live-20261014T170701352931Z/summary.json). See the linked guides for full setup, ingestion, corrections, dated reports, limits, and real-model smoke commands. **No background monitor is running.**
 
 The remainder documents the original positive-knowledge milestone, which remains supported.
 
 A frozen local LLM translates natural language into a small validated logical language. SQLite persists accepted assertions and their sources. SWI-Prolog derives answers and supporting assertion IDs. The model neither executes code nor supplies the final answer or proof.
 
-**Implementation status:** All 64 deterministic tests pass on Python 3.14.4 and SWI-Prolog 10.0.2 for arm64-darwin, including real inference, corrections, retractions, and fresh-process restart checks. All 10 gold-inference evaluation cases pass. This session has Ollama client 0.35.1, but sandbox restrictions prevent connecting to localhost (`Operation not permitted`). Local-model translations, memory usage, and the full model-driven demo remain **unverified**. Unavailable runtimes are reported explicitly, not counted as successful tests.
+**Implementation status:** All 66 deterministic tests pass on Python 3.14.4 and SWI-Prolog 10.0.2 for arm64-darwin, including real inference, corrections, retractions, and fresh-process restart checks. All 10 gold-inference evaluation cases pass. This session has Ollama client 0.35.1, but sandbox restrictions prevent connecting to localhost (`Operation not permitted`). Local-model translations, memory usage, and the full model-driven demo remain **unverified**. Unavailable runtimes are reported explicitly, not counted as successful tests.
 
 ## Apple Silicon setup
 
@@ -190,3 +190,75 @@ This is deliberately a small research prototype. Lexical entity matching misses 
 Next experiment: run both quantizations on the same labeled paraphrase/update set, then expand it with ambiguous names, competing sources, omitted rule conditions, and adversarial instructions. Compare semantic translation accuracy and clarification rate separately from symbolic accuracy, and record warm/cold latency plus peak Mac memory. The likely next improvement is an explicit entity/alias registry and reviewable saved proposals, before expanding the predicate vocabulary. New predicates should be added deliberately to the typed registry, descriptions, schemas, tests, and storage migration policy; the Prolog term interpreter is vocabulary-independent.
 
 Python runtime dependencies are standard-library only. This code is MIT licensed. [Qwen3.5-9B](https://huggingface.co/Qwen/Qwen3.5-9B) declares Apache-2.0; [Ollama](https://github.com/ollama/ollama/blob/main/LICENSE) uses MIT; [SWI-Prolog](https://www.swi-prolog.org/license.html) describes its BSD licensing and component details. No paid service is required.
+
+## Incremental workflow demonstration
+
+Run the new deterministic slice without starting Ollama or Kev:
+
+```bash
+python3 -m examples.admin_incremental_demo
+```
+
+It uses reviewed extraction fixtures and a counting mock semantic backend, with
+real SQLite and SWI-Prolog. It checks duplicate import, a clock-driven intervention
+alert, completion evidence, alert withdrawal and restart persistence. A fresh
+temporary directory holds both databases and the full report; use `--output DIR`
+to choose a fresh directory. No existing database is overwritten.
+
+The same five checkpoints are also run with semantic cache reuse disabled as a
+full-reprocessing baseline. The development run used 13 incremental judgments
+versus 50 full-reprocessing judgments with identical expected status/alert results.
+Mock latency is not evidence of real-model speedup. This is not an RLM reproduction;
+adaptive long-document reading remains future work.
+
+For an existing configured database:
+
+```bash
+python3 -m kb --db admin-ollama-test.sqlite3 admin refresh --as-of 2026-10-25
+python3 -m kb --db admin-ollama-test.sqlite3 admin refresh --as-of 2026-10-26 --clock-only
+python3 -m kb --db admin-ollama-test.sqlite3 admin history request:alex_appointment
+```
+
+`refresh` persists conclusion dependencies and alert history. `--clock-only`
+prohibits model calls, reuses available assessments and reports unresolved checks
+rather than inventing completion. It does not schedule background monitoring.
+A scheduler could invoke this command explicitly; none is installed. Existing
+`admin check` remains available without the conclusion-cache/history layer.
+
+Defaults: America/New_York, 100 candidate requests, 32 new semantic judgments,
+40 backend requests and 60 seconds. Adjust with `--timezone`, `--max-requests`,
+`--judgments`, `--requests` and `--seconds`. `--request ID` restricts refresh to
+selected requests and their prerequisites. `--mode full` deliberately recomputes
+semantic judgments for comparison and can be expensive with a real backend.
+Qwen and Kev inference share a local process lock; this serializes calls but does
+not unload model weights or guarantee a memory ceiling.
+
+Accepted imports with identical text, timestamp, explicit request, kind and
+supersession target reuse their stored result before extraction. Different timestamps
+remain separate messages. This is a local import-identity heuristic, not a connector
+message-ID scheme. Rejected extractions can be retried; they are not deduplicated.
+New collection members invalidate request conclusions; unrelated request updates
+preserve them. Human corrections still require explicit supersession/retraction.
+
+Limitations: conclusion signatures still scan a snapshot of local records; candidate
+limits bound evaluated requests, not database scan cost. Long-document discovery,
+adaptive reading, section coverage and PDF/OCR support are not implemented by this
+slice. The new refresh path has deterministic validation; the prior live-model pass
+covers the original short-message workflow, not this extension.
+
+To test incremental refresh with real Ollama extraction and real Kev assessments,
+start both local services and run:
+
+```bash
+python3 -m examples.admin_live_test --incremental
+```
+
+This extends the existing live runner using a fresh database. It checks duplicate
+import identity and unchanged records, zero model work on duplicate refresh and
+clock-only intervention, the claim/mismatch/corrected-confirmation sequence,
+collection invalidation, restart reuse and retained alert withdrawal. All outputs
+are saved under `evaluation/live-TIMESTAMP/`; `summary.json` identifies the failing
+stage. Reviewed fixtures are comparison targets only, never supplied as extraction
+or semantic replacements. The original live test without `--incremental` remains
+available. This mode passed a real-model development run on October 14; see
+`evaluation/live-20261014T173415769133Z/summary.json`.

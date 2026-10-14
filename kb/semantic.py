@@ -117,7 +117,7 @@ class Budget:
 
 
 class Gateway:
-    def __init__(self, store, records, budget, backend=None, predicate="has_skill", resolver=None, as_of=None):
+    def __init__(self, store, records, budget, backend=None, predicate="has_skill", resolver=None, as_of=None, force_models=False):
         self.store, self.records, self.budget = store, records, budget
         self.predicate, self.resolver, self.as_of = predicate, resolver, as_of
         self.definition_id, self.definition = definition(store,predicate)
@@ -126,6 +126,7 @@ class Gateway:
         if self.backend.config != self.definition['backend']:
             raise Invalid('Backend must match the registered model configuration')
         self.memo = {}
+        self.force_models = force_models
 
     def prepare(self, person, skill):
         check_schema(atom(self.predicate,person,skill), ATOM)
@@ -186,7 +187,7 @@ class Gateway:
             states = {x['status'] for x in explicit}
             return self.record(request, next(iter(states)) if len(states)==1 else 'conflict', 'explicit', explicit=explicit)
         row = self.store.db.execute('SELECT * FROM raw_judgments WHERE cache_key=?', (digest(request),)).fetchone()
-        if row:
+        if row and not self.force_models:
             self.budget.metrics['cache_hits'] += 1
             return self.interpret(request, row['id'], json.loads(row['raw']))
         if not request['evidence'] and self.definition['deterministic_evaluator']=='empty-evidence-v1':
@@ -225,10 +226,11 @@ class Gateway:
                 for pair, req, raw in zip(group, requests, raw_answers):
                     validate_raw(raw)
                     raw_id = 'raw_'+uuid.uuid4().hex
+                    cache_key = digest(req) if not self.force_models else digest(req)+':full:'+raw_id
                     with self.store.db:
                         self.store.db.execute('INSERT OR IGNORE INTO raw_judgments VALUES(?,?,?,?,?,?)',
-                            (digest(req),raw_id,encoded(req),encoded(raw),time.monotonic()-started,now()))
-                        stored = self.store.db.execute('SELECT id,raw FROM raw_judgments WHERE cache_key=?',(digest(req),)).fetchone()
+                            (cache_key,raw_id,encoded(req),encoded(raw),time.monotonic()-started,now()))
+                        stored = self.store.db.execute('SELECT id,raw FROM raw_judgments WHERE cache_key=?',(cache_key,)).fetchone()
                     result[pair] = self.interpret(req,stored['id'],json.loads(stored['raw']))
                 # Shared batch latency counted once, never summed across its questions.
                 self.budget.metrics['model_latency_ms'] += raw_answers[0].get('latency_ms',0)

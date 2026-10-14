@@ -1,6 +1,36 @@
 # Validation status
 
-The current deterministic suite passes **64 tests**, including protocol-format, cache-invalidation, and paired-evaluation checks added after the initial 54-test milestone. Tests use labeled mock decisions or mocked HTTP responses for models. SQLite and Prolog are real, including fresh-process CLI restart checks.
+## Real incremental live test passed — October 14
+
+`evaluation/live-20261014T173415769133Z/summary.json` records a passing
+`python3 -m examples.admin_live_test --incremental` run. Real Qwen extraction,
+Kev judgments and Prolog checks passed. Duplicate refresh, clock-only intervention
+and restart reused the conclusion with zero model requests (about 18 ms per refresh).
+New claim, wrong confirmation and corrected confirmation each invalidated the
+request conclusion while retaining applicable judgment cache entries. The corrected
+confirmation established documentary verification and withdrew the alerts.
+This validates one fictional development sequence, not broad extraction accuracy.
+Next: bounded adaptive long-document reading with explicit coverage and a
+cross-section correction/exception. `kb/operations.py` remains an unexposed draft.
+
+
+## Current milestone — fresh full-live pass, October 14
+
+`evaluation/live-20261014T170701352931Z/summary.json` records **LIVE TEST PASSED**.
+A fresh database completed all five live Ollama extractions, real Kev assessments,
+Prolog workflow checks, explicit wrong-document supersession, documentary verification,
+and fresh-process repeat/cache checks without manual repairs or fixture substitution.
+The repeat reused 17 judgments and made zero model calls. Total command wall time
+was about 87 seconds; the cached repeat took about 0.11 seconds.
+
+This completes the clean administrative baseline. Next test additional fictional
+messages/requests and the retained original KB/research applications; no need to
+repeat the repaired October 13 run. Keep the current 0.60 administrative threshold
+and 0.20 margin unless a subsequent experiment intentionally changes them. This
+is one passing development scenario, not a broad accuracy estimate.
+
+
+The current deterministic suite passes **66 tests**, including protocol-format, cache-invalidation, and paired-evaluation checks added after the initial 54-test milestone. Tests use labeled mock decisions or mocked HTTP responses for models. SQLite and Prolog are real, including fresh-process CLI restart checks.
 
 - `admin-mock.json`: the full fictional administrative sequence passed; final unchanged reports used zero new judgments/backend calls and 17 cached judgments.
 - `coordination-mock.json`: research eligibility, readiness, dependency consequences, updates, first-answer stopping, and restart/cache behavior passed with a counting mock.
@@ -25,7 +55,7 @@ The complete v3 live workflow was run in `admin-kev-choices-v3.json`: acknowledg
 
 The next live extraction attempt correctly extracted requested fields and dates, but duplicated submission/follow-up/intervention into `observed`, causing rejection. Selected-template extraction now constrains `expected`/`observed` field names and document names in the JSON schema passed to Ollama, and validates against the same schema. Regression coverage verifies rejection/preservation even if a backend ignores decoding constraints. Live retest is pending; no silent repair of rejected outputs is performed.
 
-The live initial request was then correctly incorporated. A later acknowledgment was rejected because Qwen invented a submission date from source timestamp metadata and an empty follow-up date. Kev consequently saw only the original request, not the acknowledgment. The extractor now withholds source timestamps from the model (retaining them in SQLite), uses a complete JSON acknowledgment example, and constrains decoded date values to ISO dates or integer lead days. All 64 deterministic tests pass, including date-free acknowledgment ingestion through mocked Ollama transport. Live retry remains required.
+The live initial request was then correctly incorporated. A later acknowledgment was rejected because Qwen invented a submission date from source timestamp metadata and an empty follow-up date. Kev consequently saw only the original request, not the acknowledgment. The extractor now withholds source timestamps from the model (retaining them in SQLite), uses a complete JSON acknowledgment example, and constrains decoded date values to ISO dates or integer lead days. All 66 deterministic tests pass, including date-free acknowledgment ingestion through mocked Ollama transport. Live retry remains required.
 
 The live wrong-account confirmation duplicated FUND-B into both expected and observed fields. Confirmation decoding now requires an empty expected array, and ingestion rejects reviewed confirmations that violate this rule. Four erroneous expected events from source `m_fdb7daf16075428999a68ef15d2dc03e` in the local development database were explicitly retracted with repair provenance; its original source, document event, and four observed fields remain. Active expected account is FUND-A. All 63 tests pass; the next dated live report is pending.
 
@@ -45,3 +75,17 @@ Next: a fresh automated full-live sequence with the final prompts/schema, then
 additional fictional cases. This successful repaired run is not yet a clean
 unattended end-to-end run: it included earlier extraction fixes and audited repairs.
 
+
+## First fresh full-live run: date provenance failure
+
+`evaluation/live-20261014T165918631819Z/` stopped at original-request extraction. All field values and dates were correct, but Qwen labeled the explicitly personal intervention date `documented` rather than `user_preference`. The fixture expectation is retained. The prompt now distinguishes authority from written evidence and explicitly covers personal follow-up and intervention choices together; an ambiguous statement that documented simply means stated in the source was replaced. Runner failures now print expected and actual values. All 66 deterministic tests pass. The failed run is preserved without repair; rerun `python3 -m examples.admin_live_test` for a fresh attempt. Live validation of this prompt revision is pending.
+
+## October 14: corrected-confirmation extraction diagnostic pending
+
+Fresh run `evaluation/live-20261014T170056120504Z/` passed original, acknowledgment, completion-claim, and wrong-account extraction and workflow checks. Corrected confirmation failed at `$.dates[0]: expected exactly one schema alternative`. The old error path discarded the rejected proposal, so the precise date entry is unknown; do not assume a specific bad role/value. The extractor now preserves parsed invalid JSON under `rejected_proposal` while incorporating no events and not superseding evidence. All 66 tests pass.
+
+Next retry only the corrected confirmation in this diagnostic database; wrong-source ID is `m_c050be8962d3498f9182a7367e55bcd9`. Inspect the rejected proposal, if any, before changing the schema/prompt. Save output to `evaluation/live-20261014T170056120504Z/retry-correct.json`. This retry is diagnosis, not a fresh unattended-run pass.
+
+## Corrected-confirmation retry diagnosed
+
+`evaluation/live-20261014T170056120504Z/retry-correct.json` preserved the actual rejection: observed fields were correct, but the model emitted dates=[{role:submission,value:"",basis:documented}] and documents=[]. It did not alter accepted evidence. A structured confirmation example with different fictional values now demonstrates observed-only fields, empty workflow dates, and the declared document type. The decoding date schema is a single object with nonempty ISO-date/integer syntax; deterministic role/value and calendar checks still reject invalid dates and lead times. Empty entries are never silently repaired. All 66 tests pass; next run `python3 -m examples.admin_live_test` for a fresh live check. This change remains unverified on live Ollama.

@@ -79,11 +79,18 @@ class Ollama:
         self.opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
 
     def request(self, endpoint, data=None):
+        if endpoint == '/api/chat':
+            from .runtime import inference_slot
+            with inference_slot(self.timeout) as remaining:
+                return self._request(endpoint, data, remaining)
+        return self._request(endpoint, data, self.timeout)
+
+    def _request(self, endpoint, data, timeout):
         req = urllib.request.Request(self.url + endpoint,
               data=None if data is None else json.dumps(data).encode(),
               headers={"Content-Type": "application/json"})
         try:
-            with self.opener.open(req, timeout=self.timeout) as response:
+            with self.opener.open(req, timeout=timeout) as response:
                 raw = response.read(2_000_001)
             if len(raw) > 2_000_000:
                 raise Invalid("Ollama response too large")

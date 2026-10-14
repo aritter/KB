@@ -1,0 +1,18 @@
+{
+  "source_id": "m_0d1f1b544eb5458ca12afff6891fbaae",
+  "request_id": "request:alex_appointment",
+  "extraction": {
+    "status": "ok",
+    "explanation": "",
+    "request_id": "request:alex_appointment",
+    "desired_outcome": "",
+    "responsible": "",
+    "expected": [],
+    "observed": [],
+    "dates": [],
+    "documents": [],
+    "absent_documents": [],
+    "dependencies": []
+  },
+  "incorporated": true
+}

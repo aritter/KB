@@ -1,6 +1,100 @@
+# Current handoff — architecture decision, October 14, 2026
+
+## Real incremental live test passed — October 14
+
+`evaluation/live-20261014T173415769133Z/summary.json` records a passing
+`python3 -m examples.admin_live_test --incremental` run. Real Qwen extraction,
+Kev judgments and Prolog checks passed. Duplicate refresh, clock-only intervention
+and restart reused the conclusion with zero model requests (about 18 ms per refresh).
+New claim, wrong confirmation and corrected confirmation each invalidated the
+request conclusion while retaining applicable judgment cache entries. The corrected
+confirmation established documentary verification and withdrew the alerts.
+This validates one fictional development sequence, not broad extraction accuracy.
+Next: bounded adaptive long-document reading with explicit coverage and a
+cross-section correction/exception. `kb/operations.py` remains an unexposed draft.
+
+
+## Next live test — incremental runner
+
+Run `python3 -m examples.admin_live_test --incremental` with Ollama and Kev started.
+It retains real extraction/judgments and checks duplicate import, clock-only
+intervention, correction, collection invalidation, fresh-process reuse and alert
+history. Outputs are saved in evaluation/live-TIMESTAMP. All 76 deterministic tests
+pass; the incremental real-model run remains unverified. This session's connection
+probes to both local model ports failed; no cause is inferred from that alone.
+
+
+## Incremental slice implemented — October 14
+
+`python3 -m examples.admin_incremental_demo` now validates duplicate import,
+clock-only intervention, completion, retained alert transitions and restart.
+`admin refresh` and `admin history` are available. The saved deterministic comparison
+is `evaluation/incremental-development/report.json`: 13 vs 50 mock judgments,
+with expected status and alert transitions in both modes. No live-model speedup
+is claimed. Nine focused incremental tests cover the new path, including CLI,
+timezone, conflicts, supersession, definition changes and budget/candidate limits.
+
+Next: extend chronological fixtures (promise deadlines and dependent requests),
+then optional live refresh validation. Adaptive reading and coverage tracking are
+still pending. The operation-plan draft is not exposed as a completed interface.
+
+
+The user approved separating incremental workflow maintenance from adaptive
+long-document processing. Read the new architecture/experiment sections at the top
+of DEVELOPMENT_PLAN.md before continuing. Qwen navigates and decomposes reading;
+Python enforces bounded operations; Kev evaluates registered semantic predicates;
+Prolog combines accepted facts and assessments into workflow conclusions.
+
+Unfinished changes are present in kb/incremental.py, kb/operations.py, kb/runtime.py
+and integration files. Preserve them but do not call the extension complete. The
+operation draft is a single literal-ID plan, not yet adaptive or recursive. Next:
+focused incremental dependency/idempotency tests and CLI slice, followed by bounded
+reading/coverage experiments. Existing live success refers to the prior short-message
+baseline, not this unfinished extension. No background work or scheduler is installed.
+
+The entries below are chronological development history; older instructions to stop
+or avoid capabilities were superseded by the user's current implementation request.
+
 # Session handoff — October 13, 2026
 
+## Current milestone — fresh full-live pass, October 14
+
+`evaluation/live-20261014T170701352931Z/summary.json` records **LIVE TEST PASSED**.
+A fresh database completed all five live Ollama extractions, real Kev assessments,
+Prolog workflow checks, explicit wrong-document supersession, documentary verification,
+and fresh-process repeat/cache checks without manual repairs or fixture substitution.
+The repeat reused 17 judgments and made zero model calls. Total command wall time
+was about 87 seconds; the cached repeat took about 0.11 seconds.
+
+This completes the clean administrative baseline. Next test additional fictional
+messages/requests and the retained original KB/research applications; no need to
+repeat the repaired October 13 run. Keep the current 0.60 administrative threshold
+and 0.20 margin unless a subsequent experiment intentionally changes them. This
+is one passing development scenario, not a broad accuracy estimate.
+
+
 User is stepping away. Stop after saving this handoff; no background work is scheduled. Resume by reading this file and DEVELOPMENT_PLAN.md. The user wants to continue testing the current system before adding new capabilities. Avoid requiring repeated manual command/output copying.
+
+
+
+
+## Corrected-confirmation retry diagnosed
+
+`evaluation/live-20261014T170056120504Z/retry-correct.json` preserved the actual rejection: observed fields were correct, but the model emitted dates=[{role:submission,value:"",basis:documented}] and documents=[]. It did not alter accepted evidence. A structured confirmation example with different fictional values now demonstrates observed-only fields, empty workflow dates, and the declared document type. The decoding date schema is a single object with nonempty ISO-date/integer syntax; deterministic role/value and calendar checks still reject invalid dates and lead times. Empty entries are never silently repaired. All 66 tests pass; next run `python3 -m examples.admin_live_test` for a fresh live check. This change remains unverified on live Ollama.
+
+## Previous corrected-confirmation diagnostic
+
+Fresh run `evaluation/live-20261014T170056120504Z/` passed original, acknowledgment, completion-claim, and wrong-account extraction and workflow checks. Corrected confirmation failed at `$.dates[0]: expected exactly one schema alternative`. The old error path discarded the rejected proposal, so the precise date entry is unknown; do not assume a specific bad role/value. The extractor now preserves parsed invalid JSON under `rejected_proposal` while incorporating no events and not superseding evidence. All 66 tests pass.
+
+Next retry only the corrected confirmation in this diagnostic database; wrong-source ID is `m_c050be8962d3498f9182a7367e55bcd9`. Inspect the rejected proposal, if any, before changing the schema/prompt. Save output to `evaluation/live-20261014T170056120504Z/retry-correct.json`. This retry is diagnosis, not a fresh unattended-run pass.
+
+## First fresh full-live run: date provenance failure
+
+`evaluation/live-20261014T165918631819Z/` stopped at original-request extraction. All field values and dates were correct, but Qwen labeled the explicitly personal intervention date `documented` rather than `user_preference`. The fixture expectation is retained. The prompt now distinguishes authority from written evidence and explicitly covers personal follow-up and intervention choices together; an ambiguous statement that documented simply means stated in the source was replaced. Runner failures now print expected and actual values. All 65 deterministic tests pass. The failed run is preserved without repair; rerun `python3 -m examples.admin_live_test` for a fresh attempt. Live validation of this prompt revision is pending.
+
+## New full-live runner — October 14
+
+`python3 -m examples.admin_live_test` now runs the fresh end-to-end sequence with real extraction and judgments, separate CLI processes, validation of each stage, and saved failure diagnostics. No manual repair or fixture fallback. Outputs go to evaluation/live-TIMESTAMP/. All 65 deterministic tests pass; real full run pending because this session cannot reach model servers. User needs to start Kev again and run this single command.
 
 ## Latest result — pending check completed
 

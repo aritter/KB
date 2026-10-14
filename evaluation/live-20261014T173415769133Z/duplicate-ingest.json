@@ -1,0 +1,20 @@
+{
+  "duplicate": true,
+  "extraction": {
+    "absent_documents": [],
+    "dates": [],
+    "dependencies": [],
+    "desired_outcome": "",
+    "documents": [],
+    "expected": [],
+    "explanation": "",
+    "observed": [],
+    "request_id": "request:alex_appointment",
+    "responsible": "",
+    "status": "ok"
+  },
+  "incorporated": true,
+  "request_id": "request:alex_appointment",
+  "source_id": "m_c206cbb4bcbb4cdfa17f624bc173afd9",
+  "new_extractions": 0
+}

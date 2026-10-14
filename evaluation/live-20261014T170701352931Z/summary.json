@@ -1,0 +1,80 @@
+{
+  "model": "qwen3.5:9b-q4_K_M",
+  "backend": {
+    "kind": "kev",
+    "url": "http://127.0.0.1:8009",
+    "checkpoint": "jaredpalmer/kev-4b@v1.0",
+    "runtime_version": "kev-1.0",
+    "backend": "mlx",
+    "dtype": "bfloat16",
+    "temperature": 2.406050072164233
+  },
+  "steps": [
+    {
+      "step": "doctor",
+      "seconds": 0.09469887497834861,
+      "exit_code": 0
+    },
+    {
+      "step": "template",
+      "seconds": 0.05751095898449421,
+      "exit_code": 0
+    },
+    {
+      "step": "configure",
+      "seconds": 0.07686416700016707,
+      "exit_code": 0
+    },
+    {
+      "step": "ingest-original",
+      "seconds": 28.33643183298409,
+      "exit_code": 0
+    },
+    {
+      "step": "ingest-ack",
+      "seconds": 8.3975233330857,
+      "exit_code": 0
+    },
+    {
+      "step": "ack",
+      "seconds": 4.399499916937202,
+      "exit_code": 0
+    },
+    {
+      "step": "ingest-claim",
+      "seconds": 8.229917041026056,
+      "exit_code": 0
+    },
+    {
+      "step": "claim",
+      "seconds": 1.8033984589856118,
+      "exit_code": 0
+    },
+    {
+      "step": "ingest-wrong",
+      "seconds": 11.87707499996759,
+      "exit_code": 0
+    },
+    {
+      "step": "wrong",
+      "seconds": 1.9770966669311747,
+      "exit_code": 0
+    },
+    {
+      "step": "ingest-correct",
+      "seconds": 18.324780832976103,
+      "exit_code": 0
+    },
+    {
+      "step": "correct",
+      "seconds": 3.001701792003587,
+      "exit_code": 0
+    },
+    {
+      "step": "repeat",
+      "seconds": 0.10526700003538281,
+      "exit_code": 0
+    }
+  ],
+  "status": "passed"
+}

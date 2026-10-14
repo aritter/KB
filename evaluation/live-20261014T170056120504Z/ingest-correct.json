@@ -1,0 +1,9 @@
+{
+  "source_id": "m_415d493ca9dc41a28d6638c0fd6ff4ae",
+  "request_id": "request:alex_appointment",
+  "extraction": {
+    "status": "clarify",
+    "explanation": "Extraction unavailable or rejected: $.dates[0]: expected exactly one schema alternative"
+  },
+  "incorporated": false
+}

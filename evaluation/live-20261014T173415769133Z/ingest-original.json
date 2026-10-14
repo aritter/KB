@@ -1,0 +1,52 @@
+{
+  "source_id": "m_c329eaf5fd0d474b8fd8ddf4b4d90928",
+  "request_id": "request:alex_appointment",
+  "extraction": {
+    "status": "ok",
+    "explanation": "",
+    "request_id": "request:alex_appointment",
+    "desired_outcome": "Please appoint Alex Example from November 1 through December 31, 2026, funded by FUND-A.",
+    "responsible": "fictional Appointments Office",
+    "expected": [
+      {
+        "name": "person",
+        "value": "Alex Example"
+      },
+      {
+        "name": "start_date",
+        "value": "2026-11-01"
+      },
+      {
+        "name": "end_date",
+        "value": "2026-12-31"
+      },
+      {
+        "name": "funding_account",
+        "value": "FUND-A"
+      }
+    ],
+    "observed": [],
+    "dates": [
+      {
+        "role": "submission",
+        "value": "2026-10-12",
+        "basis": "documented"
+      },
+      {
+        "role": "follow_up",
+        "value": "2026-10-20",
+        "basis": "user_preference"
+      },
+      {
+        "role": "intervention",
+        "value": "2026-10-25",
+        "basis": "user_preference"
+      }
+    ],
+    "documents": [],
+    "absent_documents": [],
+    "dependencies": []
+  },
+  "incorporated": true,
+  "duplicate": false
+}

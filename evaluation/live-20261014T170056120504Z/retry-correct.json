@@ -1,0 +1,45 @@
+{
+  "source_id": "m_5bb4da46963142c8ad6161798b16a3bd",
+  "request_id": "request:alex_appointment",
+  "extraction": {
+    "status": "clarify",
+    "explanation": "Extraction schema rejected: $.dates[0]: expected exactly one schema alternative",
+    "rejected_proposal": {
+      "status": "ok",
+      "explanation": "",
+      "request_id": "request:alex_appointment",
+      "desired_outcome": "",
+      "responsible": "",
+      "expected": [],
+      "observed": [
+        {
+          "name": "person",
+          "value": "Alex Example"
+        },
+        {
+          "name": "start_date",
+          "value": "2026-11-01"
+        },
+        {
+          "name": "end_date",
+          "value": "2026-12-31"
+        },
+        {
+          "name": "funding_account",
+          "value": "FUND-A"
+        }
+      ],
+      "dates": [
+        {
+          "role": "submission",
+          "value": "",
+          "basis": "documented"
+        }
+      ],
+      "documents": [],
+      "absent_documents": [],
+      "dependencies": []
+    }
+  },
+  "incorporated": false
+}

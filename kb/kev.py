@@ -31,6 +31,11 @@ class KevBackend:
         return json.loads(raw)
 
     def evaluate(self, requests, timeout):
+        from .runtime import inference_slot
+        with inference_slot(timeout) as remaining:
+            return self._evaluate(requests, remaining)
+
+    def _evaluate(self, requests, timeout):
         started = time.monotonic()
         if not self.verified:
             models = self.request('/v1/models',None,timeout)['models']

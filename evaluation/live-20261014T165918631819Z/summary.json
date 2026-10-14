@@ -1,0 +1,37 @@
+{
+  "model": "qwen3.5:9b-q4_K_M",
+  "backend": {
+    "kind": "kev",
+    "url": "http://127.0.0.1:8009",
+    "checkpoint": "jaredpalmer/kev-4b@v1.0",
+    "runtime_version": "kev-1.0",
+    "backend": "mlx",
+    "dtype": "bfloat16",
+    "temperature": 2.406050072164233
+  },
+  "steps": [
+    {
+      "step": "doctor",
+      "seconds": 0.147019708994776,
+      "exit_code": 0
+    },
+    {
+      "step": "template",
+      "seconds": 0.06170245795510709,
+      "exit_code": 0
+    },
+    {
+      "step": "configure",
+      "seconds": 0.07751258299686015,
+      "exit_code": 0
+    },
+    {
+      "step": "ingest-original",
+      "seconds": 31.813985708984546,
+      "exit_code": 0
+    }
+  ],
+  "status": "failed",
+  "failure_stage": "extraction",
+  "error": "Extraction mismatch for original.dates; inspect saved output"
+}

@@ -104,7 +104,7 @@ def check_schema(value, schema, path="$"):
         for i, item in enumerate(value):
             check_schema(item, schema["items"], f"{path}[{i}]")
     elif kind == "string":
-        if not isinstance(value, str) or len(value) > schema.get("maxLength", 10000):
+        if not isinstance(value, str) or not schema.get("minLength", 0) <= len(value) <= schema.get("maxLength", 10000):
             raise Invalid(f"{path}: invalid string")
         if "pattern" in schema and not re.fullmatch(schema["pattern"], value):
             raise Invalid(f"{path}: invalid identifier")
